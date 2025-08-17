@@ -16,13 +16,13 @@ function AuthCallbackContent() {
 
     if (error) {
       console.error('OAuth error:', error)
-      router.push(`/${locale}/sign-in?error=oauth_failed`)
+      router.push(`/${locale}/auth/sign-in?error=oauth_failed`)
       return
     }
 
     if (!token) {
       console.error('No token received')
-      router.push(`/${locale}/sign-in?error=no_token`)
+      router.push(`/${locale}/auth/sign-in?error=no_token`)
       return
     }
 
@@ -44,7 +44,7 @@ function AuthCallbackContent() {
       router.push(`/${locale}`)
     } catch (error) {
       console.error('Token decode error:', error)
-      router.push(`/${locale}/sign-in?error=invalid_token`)
+      router.push(`/${locale}/auth/sign-in?error=invalid_token`)
     }
   }, [searchParams, router, locale])
 

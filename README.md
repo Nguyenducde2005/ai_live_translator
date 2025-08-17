@@ -1,6 +1,6 @@
-# Slackbot CMS
+# GiantyLive CMS
 
-Hệ thống quản lý nội dung cho Slackbot với frontend React và backend Node.js.
+Hệ thống quản lý nội dung cho GiantyLive với frontend React và backend Node.js.
 
 ## 🚀 Quick Start
 
@@ -89,7 +89,7 @@ curl http://localhost:9000/health
 curl http://localhost:3000
 
 # Database
-docker-compose exec postgres pg_isready -U postgres -d slackbot_db
+docker-compose exec postgres pg_isready -U postgres -d GiantyLive_db
 ```
 
 ## 🛠️ Development
@@ -125,7 +125,7 @@ docker-compose down -v
 ## 📁 Cấu trúc Project
 
 ```
-slackbot_cms/
+GiantyLive/
 ├── backend/          # Node.js API server
 ├── frontend/         # React application
 ├── docker-compose.yml
@@ -137,7 +137,7 @@ slackbot_cms/
 
 ### Backend (.env):
 ```
-DATABASE_URL="postgresql://postgres:postgres@localhost:5433/slackbot_db?schema=public"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5433/GiantyLive_db?schema=public"
 JWT_SECRET="your-super-secret-jwt-key-here"
 PORT=9000
 NODE_ENV=development
@@ -160,7 +160,7 @@ docker-compose ps
 docker-compose logs postgres
 
 # Health check database
-docker-compose exec postgres pg_isready -U postgres -d slackbot_db
+docker-compose exec postgres pg_isready -U postgres -d GiantyLive_db
 ```
 
 ### Nếu backend không start:

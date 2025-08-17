@@ -34,7 +34,13 @@
     "features": "Features",
     "howItWorks": "How It Works",
     "languages": "Languages",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "conferences": "Conferences",
+    "chatHistory": "Chat History",
+    "glossaries": "Glossaries",
+    "workspaces": "Workspaces",
+    "users": "Users",
+    "settings": "Settings"
   },
   "auth": {
     "signIn": "Sign In",
@@ -91,7 +97,20 @@
     "general": "General",
     "notifications": "Notifications",
     "privacy": "Privacy",
-    "security": "Security"
+    "security": "Security",
+    "language": {
+      "title": "Language Settings",
+      "description": "Choose your preferred language for the application",
+      "defaultLanguage": "Default Language",
+      "selectLanguage": "Select Language",
+      "currentLanguage": "Current Language",
+      "languageUpdated": "Language updated successfully!",
+      "failedToUpdateLanguage": "Failed to update language",
+      "languageDescription": "This setting will be applied to your account and saved for future sessions.",
+      "english": "English",
+      "vietnamese": "Tiếng Việt",
+      "japanese": "日本語"
+    }
   },
   "header": {
     "welcomeBack": "Welcome back, {name}",
@@ -238,5 +257,58 @@
     "company": "Company",
     "about": "About",
     "subtitle": "Powered by advanced AI, our intelligent translation platform delivers human-like accuracy for seamless international communication."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {name}",
+    "overview": "Overview",
+    "quickActions": "Quick Actions",
+    "recentActivity": "Recent Activity",
+    "statistics": "Statistics",
+    "createConference": "Create Conference",
+    "createConferenceDescription": "Start a new live voice translation conference",
+    "createConferenceSubtext": "Create conference rooms with real-time translation support"
+  },
+  "conferences": {
+    "title": "Conferences",
+    "createConference": "Create Conference",
+    "joinConference": "Join Conference",
+    "conferenceRoom": "Conference Room",
+    "roomCode": "Room Code",
+    "roomName": "Room Name",
+    "participants": "Participants",
+    "host": "Host",
+    "join": "Join",
+    "leave": "Leave",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "videoOn": "Video On",
+    "videoOff": "Video Off",
+    "share": "Share",
+    "qrCode": "QR Code",
+    "copyLink": "Copy Link",
+    "enterRoomCode": "Enter Room Code",
+    "enterYourName": "Enter Your Name",
+    "startConference": "Start Conference",
+    "conferenceCreated": "Conference Created!",
+    "conferenceCreatedDescription": "Conference room has been created successfully. Share the room code or QR code with participants.",
+    "noConferences": "No Conferences",
+    "noConferencesDescription": "Create your first conference to get started.",
+    "conferenceStats": {
+      "totalRooms": "Total Rooms",
+      "activeParticipants": "Active Participants",
+      "totalUsers": "Total Users"
+    },
+    "translation": {
+      "title": "Translation",
+      "originalText": "Original Text",
+      "translatedText": "Translated Text",
+      "questions": "Questions",
+      "hostText": "Host Text",
+      "viewerQuestions": "Viewer Questions"
+    },
+    "copyCode": "Copy Code",
+    "copyLink": "Copy Link",
+    "showQR": "Show QR"
   }
 } 

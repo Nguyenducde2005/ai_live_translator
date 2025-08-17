@@ -66,7 +66,7 @@ export function MainHeader() {
 
     const handleLogout = () => {
         logout()
-        router.push(`/${locale}/sign-in`)
+        router.push(`/${locale}/auth/sign-in`)
     }
 
     React.useEffect(() => {
@@ -141,31 +141,7 @@ export function MainHeader() {
                             </div>
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 {/* Language Switcher */}
-                                <div className="flex items-center space-x-2">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="sm" className="text-white hover:text-red-400 transition-colors px-3 py-2 h-auto">
-                                                <Globe className="w-4 h-4 mr-2" />
-                                                <span className="text-sm font-medium">EN</span>
-                                                <ChevronDown className="w-4 h-4 ml-2" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" className="w-48 mt-2">
-                                            <DropdownMenuItem className="cursor-pointer">
-                                                <span className="mr-2">🇺🇸</span>
-                                                <span>English</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem className="cursor-pointer">
-                                                <span className="mr-2">🇻🇳</span>
-                                                <span>Tiếng Việt</span>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem className="cursor-pointer">
-                                                <span className="mr-2">🇯🇵</span>
-                                                <span>日本語</span>
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </div>
+                                <LanguageSwitcher variant="compact" />
 
                                     {/* Auth buttons */}
                                     {isAuthenticated ? (
@@ -186,11 +162,11 @@ export function MainHeader() {
                                             <DropdownMenuContent align="end" className="w-48 mt-2">
                                                 <DropdownMenuLabel className="text-white">{t('header.welcomeBack', { name: user?.full_name || 'User' })}</DropdownMenuLabel>
                                                 <DropdownMenuSeparator />
-                                                <DropdownMenuItem onClick={() => router.push(`/${locale}/profile`)}>
+                                                <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard/profile`)}>
                                                     <User className="w-4 h-4 mr-2" />
                                                     {t('profile.myProfile')}
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => router.push(`/${locale}/settings`)}>
+                                                <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard/settings`)}>
                                                     <Settings className="w-4 h-4 mr-2" />
                                                     {t('settings.title')}
                                                 </DropdownMenuItem>
@@ -223,6 +199,5 @@ export function MainHeader() {
                     </div>
                 </nav>
             </header>
-        </div>
     );
 } 

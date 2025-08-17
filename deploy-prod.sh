@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Starting Slackbot CMS Production Deployment..."
+echo "🚀 Starting GiantyLive CMS Production Deployment..."
 
 # Stop existing containers
 echo "📦 Stopping existing containers..."

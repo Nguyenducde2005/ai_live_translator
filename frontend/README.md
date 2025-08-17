@@ -1,6 +1,6 @@
-# Slackbot CMS Frontend
+# GiantyLive CMS Frontend
 
-Content Management System cho Slackbot được xây dựng với Next.js 15 App Router.
+Content Management System cho GiantyLive được xây dựng với Next.js 15 App Router.
 
 ## Cấu trúc dự án
 

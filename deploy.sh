@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Starting Slackbot CMS Deployment..."
+echo "🚀 Starting GiantyLive CMS Deployment..."
 
 # Stop existing containers
 echo "📦 Stopping existing containers..."
@@ -36,7 +36,7 @@ sleep 5
 
 echo "✅ Deployment completed!"
 echo "📱 Frontend: http://192.168.39.100:3000"
-echo "🔧 Backend API: https://api-slackbot.sgcharo.com"
+echo "🔧 Backend API: https://api-GiantyLive.sgcharo.com"
 echo "🗄️ Database: http://192.168.39.100:5433"
 
 # Show logs

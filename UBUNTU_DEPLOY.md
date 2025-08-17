@@ -1,6 +1,6 @@
 # Ubuntu Server Deployment Guide
 
-## 🚀 Triển khai Slackbot CMS trên Ubuntu Server
+## 🚀 Triển khai GiantyLive CMS trên Ubuntu Server
 
 ### Bước 1: Cài đặt Docker (nếu chưa có)
 
@@ -27,7 +27,7 @@ docker-compose --version
 ```bash
 # Clone project (nếu chưa có)
 git clone <your-repo-url>
-cd slackbot_cms
+cd GiantyLive
 
 # Cấp quyền cho script deploy
 chmod +x deploy.sh
@@ -83,26 +83,26 @@ curl http://localhost:3000
 
 ```bash
 # 1. Dừng containers cũ
-docker compose -p slackbot-prod -f docker-compose.prod.yml down
+docker compose -p GiantyLive-prod -f docker-compose.prod.yml down
 
 # 2. Build images (không dùng override file)
 # Build all
-docker compose --env-file .env.production -p slackbot-prod -f docker-compose.prod.yml build --no-cache
+docker compose --env-file .env.production -p GiantyLive-prod -f docker-compose.prod.yml build --no-cache
 
 # Build frontend
-docker compose --env-file .env.production -p slackbot-prod -f docker-compose.prod.yml build --no-cache frontend
+docker compose --env-file .env.production -p GiantyLive-prod -f docker-compose.prod.yml build --no-cache frontend
 
 
 # 3. Khởi động services
-# docker compose -p slackbot-prod -f docker-compose.prod.yml up -d
-docker compose --env-file .env.production -p slackbot-prod -f docker-compose.prod.yml up -d
+# docker compose -p GiantyLive-prod -f docker-compose.prod.yml up -d
+docker compose --env-file .env.production -p GiantyLive-prod -f docker-compose.prod.yml up -d
 
 # 4. Kiểm tra trạng thái
 # docker compose -f docker-compose.prod.yml ps
-docker compose -p slackbot-prod -f docker-compose.prod.yml ps
+docker compose -p GiantyLive-prod -f docker-compose.prod.yml ps
 
 # 4.1 Khởi động lại frontend
-docker compose -p slackbot-prod -f docker-compose.prod.yml restart frontend
+docker compose -p GiantyLive-prod -f docker-compose.prod.yml restart frontend
 
 # 5. Chạy migrations
 docker compose -f docker-compose.prod.yml exec backend npx prisma migrate deploy
@@ -124,7 +124,7 @@ docker-compose logs frontend
 docker-compose logs postgres
 
 # Kiểm tra database
-docker-compose exec postgres pg_isready -U postgres -d slackbot_db
+docker-compose exec postgres pg_isready -U postgres -d GiantyLive_db
 
 # Vào container backend để debug
 docker-compose exec backend sh
@@ -156,7 +156,7 @@ Nếu muốn sử dụng domain name:
 sudo apt install nginx
 
 # Tạo config
-sudo nano /etc/nginx/sites-available/slackbot
+sudo nano /etc/nginx/sites-available/GiantyLive
 
 # Thêm nội dung:
 server {
@@ -189,7 +189,7 @@ server {
 }
 
 # Enable site
-sudo ln -s /etc/nginx/sites-available/slackbot /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/GiantyLive /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 ```
@@ -206,7 +206,7 @@ docker-compose logs postgres
 docker-compose exec postgres psql -U postgres
 
 # Tạo database thủ công nếu cần
-CREATE DATABASE slackbot_db;
+CREATE DATABASE GiantyLive_db;
 \q
 
 # Chạy migrations
@@ -250,7 +250,7 @@ df -h
 free -h
 
 # Backup database
-docker-compose exec postgres pg_dump -U postgres slackbot_db > backup.sql
+docker-compose exec postgres pg_dump -U postgres GiantyLive_db > backup.sql
 ```
 
 ## 🔄 Update và Redeploy

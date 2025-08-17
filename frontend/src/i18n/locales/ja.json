@@ -34,7 +34,13 @@
     "features": "機能",
     "howItWorks": "使い方",
     "languages": "言語",
-    "pricing": "料金"
+    "pricing": "料金",
+    "conferences": "会議",
+    "chatHistory": "チャット履歴",
+    "glossaries": "用語集",
+    "workspaces": "ワークスペース",
+    "users": "ユーザー",
+    "settings": "設定"
   },
   "auth": {
     "signIn": "サインイン",
@@ -91,7 +97,20 @@
     "general": "一般",
     "notifications": "通知",
     "privacy": "プライバシー",
-    "security": "セキュリティ"
+    "security": "セキュリティ",
+    "language": {
+      "title": "言語設定",
+      "description": "アプリケーションの優先言語を選択",
+      "defaultLanguage": "デフォルト言語",
+      "selectLanguage": "言語を選択",
+      "currentLanguage": "現在の言語",
+      "languageUpdated": "言語が正常に更新されました！",
+      "failedToUpdateLanguage": "言語の更新に失敗しました",
+      "languageDescription": "この設定はアカウントに適用され、今後のセッションで保存されます。",
+      "english": "English",
+      "vietnamese": "Tiếng Việt",
+      "japanese": "日本語"
+    }
   },
   "header": {
     "welcomeBack": "おかえりなさい、{name}",
@@ -239,19 +258,57 @@
     "about": "会社概要",
     "subtitle": "高度なAIにより、インテリジェント翻訳プラットフォームが人間のような精度でシームレスな国際コミュニケーションを実現。"
   },
-  "settings": {
-    "language": {
-      "title": "言語設定",
-      "description": "アプリケーションの優先言語を選択",
-      "defaultLanguage": "デフォルト言語",
-      "selectLanguage": "言語を選択",
-      "currentLanguage": "現在の言語",
-      "languageUpdated": "言語が正常に更新されました！",
-      "failedToUpdateLanguage": "言語の更新に失敗しました",
-      "languageDescription": "この設定はアカウントに適用され、今後のセッションで保存されます。",
-      "english": "English",
-      "vietnamese": "Tiếng Việt",
-      "japanese": "日本語"
-    }
+  "dashboard": {
+    "title": "ダッシュボード",
+    "welcome": "おかえりなさい、{name}",
+    "overview": "概要",
+    "quickActions": "クイックアクション",
+    "recentActivity": "最近のアクティビティ",
+    "statistics": "統計",
+    "createConference": "会議を作成",
+    "createConferenceDescription": "新しいライブ音声翻訳会議を開始",
+    "createConferenceSubtext": "リアルタイム翻訳サポート付きの会議室を作成"
+  },
+  "conferences": {
+    "title": "会議",
+    "createConference": "会議を作成",
+    "joinConference": "会議に参加",
+    "conferenceRoom": "会議室",
+    "roomCode": "ルームコード",
+    "roomName": "ルーム名",
+    "participants": "参加者",
+    "host": "ホスト",
+    "join": "参加",
+    "leave": "退出",
+    "mute": "ミュート",
+    "unmute": "ミュート解除",
+    "videoOn": "ビデオオン",
+    "videoOff": "ビデオオフ",
+    "share": "共有",
+    "qrCode": "QRコード",
+    "copyLink": "リンクをコピー",
+    "enterRoomCode": "ルームコードを入力",
+    "enterYourName": "お名前を入力",
+    "startConference": "会議を開始",
+    "conferenceCreated": "会議が作成されました！",
+    "conferenceCreatedDescription": "会議室が正常に作成されました。参加者とルームコードまたはQRコードを共有してください。",
+    "noConferences": "会議がありません",
+    "noConferencesDescription": "最初の会議を作成して開始してください。",
+    "conferenceStats": {
+      "totalRooms": "総ルーム数",
+      "activeParticipants": "アクティブ参加者",
+      "totalUsers": "総ユーザー数"
+    },
+    "translation": {
+      "title": "翻訳",
+      "originalText": "元のテキスト",
+      "translatedText": "翻訳されたテキスト",
+      "questions": "質問",
+      "hostText": "ホストのテキスト",
+      "viewerQuestions": "視聴者の質問"
+    },
+    "copyCode": "コードをコピー",
+    "copyLink": "リンクをコピー",
+    "showQR": "QRを表示"
   }
 } 

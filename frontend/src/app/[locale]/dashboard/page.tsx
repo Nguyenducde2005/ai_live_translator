@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
-import { User, BookOpen, Building2, Activity, Users, Shield, MessageSquare, Settings, Plus } from 'lucide-react'
+import { User, BookOpen, Building2, Activity, Users, Shield, MessageSquare, Settings, Plus, Video } from 'lucide-react'
 import Link from 'next/link'
 import { apiClient } from '@/lib/api-client'
 import { isAdmin } from '@/lib/constants/roles'
@@ -203,6 +203,13 @@ export default function DashboardPage() {
                   </div>
                 </Link>
                 
+                <Link href={`/${locale}/dashboard/conferences`}>
+                  <div className="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors">
+                    <Video className="w-5 h-5 text-red-600 mr-3" />
+                    <span className="text-gray-700">Conferences</span>
+                  </div>
+                </Link>
+                
                 <Link href={`/${locale}/dashboard/settings`}>
                   <div className="flex items-center p-3 rounded-lg hover:bg-gray-100 transition-colors">
                     <Settings className="w-5 h-5 text-gray-600 mr-3" />
@@ -256,6 +263,23 @@ export default function DashboardPage() {
                         <p className="text-sm text-gray-600 mb-3">{t('glossaries.glossaryDetails')}</p>
                         <p className="text-xs text-gray-500 leading-relaxed">
                           {t('glossaries.glossaryDetails')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+
+                <Link href={`/${locale}/dashboard/conferences`}>
+                  <div className="p-6 border border-gray-200 rounded-lg hover:border-red-300 hover:bg-red-50 transition-colors cursor-pointer h-full">
+                    <div className="flex items-start">
+                      <div className="bg-red-100 p-3 rounded-lg">
+                        <Video className="w-6 h-6 text-red-600" />
+                      </div>
+                      <div className="ml-4 flex-1">
+                        <h4 className="font-semibold text-gray-900 text-lg mb-2">Create Conference</h4>
+                        <p className="text-sm text-gray-600 mb-3">Start a new live voice translation conference</p>
+                        <p className="text-xs text-gray-500 leading-relaxed">
+                          Create conference rooms with real-time translation support
                         </p>
                       </div>
                     </div>

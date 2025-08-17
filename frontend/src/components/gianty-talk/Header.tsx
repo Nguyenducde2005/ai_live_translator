@@ -192,11 +192,11 @@ const Header = () => {
                 <DropdownMenuContent align="end" className="w-48 mt-2 bg-gray-900/90 backdrop-blur-xl border border-gray-700">
                   <DropdownMenuLabel className="text-white bg-gray-800/80 px-2 py-1 rounded-t-md">{t('header.welcomeBack', { name: user?.full_name || 'User' })}</DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-gray-600" />
-                  <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/profile`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                  <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/profile`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                     <User className="w-4 h-4 mr-2" />
                     {t('profile.myProfile')}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                  <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                     <Settings className="w-4 h-4 mr-2" />
                     {t('settings.title')}
                   </DropdownMenuItem>
@@ -270,11 +270,11 @@ const Header = () => {
                     <DropdownMenuContent align="end" className="w-48 mt-2 bg-gray-900/90 backdrop-blur-xl border border-gray-700">
                       <DropdownMenuLabel className="text-white bg-gray-800/80 px-2 py-1 rounded-t-md">{t('header.welcomeBack', { name: user?.full_name || 'User' })}</DropdownMenuLabel>
                       <DropdownMenuSeparator className="bg-gray-600" />
-                      <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/profile`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                      <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/profile`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                         <User className="w-4 h-4 mr-2" />
                         {t('profile.myProfile')}
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                      <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                         <Settings className="w-4 h-4 mr-2" />
                         {t('settings.title')}
                       </DropdownMenuItem>

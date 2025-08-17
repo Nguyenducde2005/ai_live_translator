@@ -1,6 +1,6 @@
 import type { ApiResponse } from '@/types'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api-slackbot.sgcharo.com'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api-GiantyLive.sgcharo.com'
 
 export async function apiRequest<T>(
   endpoint: string,

@@ -34,7 +34,13 @@
     "features": "Tính năng",
     "howItWorks": "Cách hoạt động",
     "languages": "Ngôn ngữ",
-    "pricing": "Giá cả"
+    "pricing": "Giá cả",
+    "conferences": "Hội nghị",
+    "chatHistory": "Lịch sử chat",
+    "glossaries": "Từ điển",
+    "workspaces": "Không gian làm việc",
+    "users": "Người dùng",
+    "settings": "Cài đặt"
   },
   "auth": {
     "signIn": "Đăng nhập",
@@ -91,7 +97,20 @@
     "general": "Chung",
     "notifications": "Thông báo",
     "privacy": "Riêng tư",
-    "security": "Bảo mật"
+    "security": "Bảo mật",
+    "language": {
+      "title": "Cài đặt ngôn ngữ",
+      "description": "Chọn ngôn ngữ ưa thích cho ứng dụng",
+      "defaultLanguage": "Ngôn ngữ mặc định",
+      "selectLanguage": "Chọn ngôn ngữ",
+      "currentLanguage": "Ngôn ngữ hiện tại",
+      "languageUpdated": "Cập nhật ngôn ngữ thành công!",
+      "failedToUpdateLanguage": "Không thể cập nhật ngôn ngữ",
+      "languageDescription": "Cài đặt này sẽ được áp dụng cho tài khoản của bạn và lưu cho các phiên đăng nhập sau.",
+      "english": "English",
+      "vietnamese": "Tiếng Việt",
+      "japanese": "日本語"
+    }
   },
   "header": {
     "welcomeBack": "Chào mừng trở lại, {name}",
@@ -239,19 +258,57 @@
     "about": "Giới thiệu",
     "subtitle": "Được hỗ trợ bởi AI tiên tiến, nền tảng dịch thuật thông minh của chúng tôi mang lại độ chính xác như con người cho giao tiếp quốc tế liền mạch."
   },
-  "settings": {
-    "language": {
-      "title": "Cài đặt ngôn ngữ",
-      "description": "Chọn ngôn ngữ ưa thích cho ứng dụng",
-      "defaultLanguage": "Ngôn ngữ mặc định",
-      "selectLanguage": "Chọn ngôn ngữ",
-      "currentLanguage": "Ngôn ngữ hiện tại",
-      "languageUpdated": "Cập nhật ngôn ngữ thành công!",
-      "failedToUpdateLanguage": "Không thể cập nhật ngôn ngữ",
-      "languageDescription": "Cài đặt này sẽ được áp dụng cho tài khoản của bạn và lưu cho các phiên đăng nhập sau.",
-      "english": "English",
-      "vietnamese": "Tiếng Việt",
-      "japanese": "日本語"
-    }
+  "dashboard": {
+    "title": "Bảng điều khiển",
+    "welcome": "Chào mừng trở lại, {name}",
+    "overview": "Tổng quan",
+    "quickActions": "Hành động nhanh",
+    "recentActivity": "Hoạt động gần đây",
+    "statistics": "Thống kê",
+    "createConference": "Tạo hội nghị",
+    "createConferenceDescription": "Bắt đầu hội nghị dịch thuật âm thanh trực tiếp mới",
+    "createConferenceSubtext": "Tạo phòng hội nghị với hỗ trợ dịch thuật thời gian thực"
+  },
+  "conferences": {
+    "title": "Hội nghị",
+    "createConference": "Tạo hội nghị",
+    "joinConference": "Tham gia hội nghị",
+    "conferenceRoom": "Phòng hội nghị",
+    "roomCode": "Mã phòng",
+    "roomName": "Tên phòng",
+    "participants": "Người tham gia",
+    "host": "Chủ trì",
+    "join": "Tham gia",
+    "leave": "Rời đi",
+    "mute": "Tắt tiếng",
+    "unmute": "Bật tiếng",
+    "videoOn": "Bật video",
+    "videoOff": "Tắt video",
+    "share": "Chia sẻ",
+    "qrCode": "Mã QR",
+    "copyLink": "Sao chép liên kết",
+    "enterRoomCode": "Nhập mã phòng",
+    "enterYourName": "Nhập tên của bạn",
+    "startConference": "Bắt đầu hội nghị",
+    "conferenceCreated": "Hội nghị đã được tạo!",
+    "conferenceCreatedDescription": "Phòng hội nghị đã được tạo thành công. Hãy chia sẻ mã phòng hoặc mã QR với người tham gia.",
+    "noConferences": "Không có hội nghị nào",
+    "noConferencesDescription": "Hãy tạo hội nghị đầu tiên để bắt đầu.",
+    "conferenceStats": {
+      "totalRooms": "Tổng số phòng",
+      "activeParticipants": "Người tham gia đang hoạt động",
+      "totalUsers": "Tổng số người dùng"
+    },
+    "translation": {
+      "title": "Dịch thuật",
+      "originalText": "Văn bản gốc",
+      "translatedText": "Văn bản đã dịch",
+      "questions": "Câu hỏi",
+      "hostText": "Văn bản của chủ trì",
+      "viewerQuestions": "Câu hỏi của người xem"
+    },
+    "copyCode": "Sao chép mã",
+    "copyLink": "Sao chép liên kết",
+    "showQR": "Hiển thị QR"
   }
 } 

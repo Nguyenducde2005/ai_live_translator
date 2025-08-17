@@ -7,7 +7,7 @@ class ApiClient {
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://api-slackbot.sgcharo.com',
+      baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://api-GiantyLive.sgcharo.com',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',

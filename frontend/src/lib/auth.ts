@@ -1,6 +1,6 @@
 import { SignInRequest, SignUpRequest, AuthResponse, User } from '@/types/auth'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api-slackbot.sgcharo.com'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api-GiantyLive.sgcharo.com'
 
 // Cookie management
 export const setCookie = (name: string, value: string, days: number = 7): void => {
