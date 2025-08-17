@@ -1,0 +1,242 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "open": "Open",
+    "view": "View",
+    "details": "Details",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "description": "Description",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "navigation": {
+    "home": "Home",
+    "features": "Features",
+    "howItWorks": "How It Works",
+    "languages": "Languages",
+    "pricing": "Pricing"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "login": "Login",
+    "getStarted": "Get Started",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "createAccount": "Create Account",
+    "creatingAccount": "Creating Account...",
+    "loginToAccount": "Login to your account",
+    "welcomeBack": "Welcome back",
+    "signInToContinue": "Sign in to your account to continue",
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password",
+    "signingIn": "Signing in...",
+    "signInButton": "Sign in",
+    "backToHome": "Back to home",
+    "orContinueWith": "Or continue with",
+    "google": "Google",
+    "twitter": "Twitter",
+    "createAccountTitle": "Create your account",
+    "createAccountSubtitle": "Sign up to get started with GiantyLive",
+    "enterName": "Enter your full name",
+    "fullName": "Full Name",
+    "enterConfirmPassword": "Confirm your password",
+    "agreeToTerms": "I agree to the",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "signingUp": "Signing up...",
+    "signUpButton": "Create account",
+    "signUpToContinue": "Create an account to continue",
+    "authenticationError": "Authentication Error",
+    "backToSignIn": "Back to Sign In",
+    "processingAuthentication": "Processing authentication...",
+    "pleaseWait": "Please wait",
+    "processing": "Processing..."
+  },
+  "profile": {
+    "myProfile": "My Profile",
+    "editProfile": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "accountSettings": "Account Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "notifications": "Notifications",
+    "privacy": "Privacy",
+    "security": "Security"
+  },
+  "header": {
+    "welcomeBack": "Welcome back, {name}",
+    "logout": "Logout"
+  },
+  "hero": {
+    "title": "GiantyLive",
+    "slogan": "Speak. Understand. Connect.",
+    "subtitle": "Break language barriers with AI-powered real-time translation for international conferences",
+    "startLiveTranslation": "Start Live Translation",
+    "joinConference": "Join Conference",
+    "features": {
+      "realTimeAI": "Real-time AI Translation",
+      "languagesSupported": "20 Languages Supported",
+      "conferenceOptimized": "Conference Optimized"
+    }
+  },
+  "features": {
+    "title": "Why Choose GiantyLive",
+    "subtitle": "Advanced AI-powered features designed for seamless international communication",
+    "realTimeTranslation": {
+      "title": "Real-time Translation",
+      "description": "Instant translation with ultra-low latency, making conversations flow naturally"
+    },
+    "aiPowered": {
+      "title": "AI-Powered Accuracy",
+      "description": "Advanced neural networks ensure context-aware translations with 95% accuracy"
+    },
+    "multiLanguage": {
+      "title": "Multi-Language Support",
+      "description": "Support for 20+ languages with automatic language detection"
+    },
+    "conferenceOptimized": {
+      "title": "Conference Optimized",
+      "description": "Built specifically for international conferences and meetings"
+    }
+  },
+  "howItWorks": {
+    "title": "How GiantyLive Works",
+    "subtitle": "Four Simple Steps to Global Communication",
+    "description": "Our AI-powered platform makes international conferences effortless",
+    "steps": {
+      "step1": {
+        "number": "01",
+        "title": "Speak Naturally",
+        "description": "Simply speak in your native language during your conference. Our AI detects multiple speakers and languages automatically."
+      },
+      "step2": {
+        "number": "02",
+        "title": "AI Processing",
+        "description": "Advanced neural networks process your speech with context awareness, ensuring accurate translations that maintain meaning and nuance."
+      },
+      "step3": {
+        "number": "03",
+        "title": "Instant Translation",
+        "description": "Participants receive real-time translations in their preferred language through high-quality audio output or text display."
+      },
+      "step4": {
+        "number": "04",
+        "title": "Seamless Communication",
+        "description": "Experience natural conversation flow with ultra-low latency, making language barriers disappear completely."
+      }
+    },
+    "visual": {
+      "title": "Real-Time Translation",
+      "subtitle": "Experience the magic of instant communication",
+      "english": "English",
+      "vietnamese": "Vietnamese"
+    }
+  },
+  "languages": {
+    "title": "Supported Languages",
+    "subtitle": "Break down language barriers with comprehensive language support",
+    "description": "Our AI supports 20+ languages with automatic detection and high-quality translation",
+    "languageList": [
+      "English",
+      "Vietnamese",
+      "Japanese",
+      "Chinese",
+      "Korean",
+      "Spanish",
+      "French",
+      "German",
+      "Italian",
+      "Portuguese",
+      "Russian",
+      "Arabic",
+      "Hindi",
+      "Thai",
+      "Indonesian",
+      "Malay",
+      "Filipino",
+      "Dutch",
+      "Swedish",
+      "Norwegian"
+    ]
+  },
+  "testimonials": {
+    "title": "What Our Users Say",
+    "subtitle": "Join thousands of professionals who trust GiantyLive for their international communication needs",
+    "testimonials": [
+      {
+        "name": "Dr. Sarah Chen",
+        "role": "Conference Organizer",
+        "company": "Global Tech Summit",
+        "content": "GiantyLive transformed our international conference. Participants could communicate seamlessly regardless of their native language."
+      },
+      {
+        "name": "Prof. Miguel Rodriguez",
+        "role": "Academic Director",
+        "company": "International University",
+        "content": "The AI translation quality is exceptional. Our students from different countries can now participate fully in discussions."
+      },
+      {
+        "name": "Lisa Thompson",
+        "role": "Business Development",
+        "company": "Multinational Corp",
+        "content": "We've seen a 40% increase in international client engagement since implementing GiantyLive in our meetings."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Get Started?",
+    "headline": "Transform Your Next International Conference",
+    "subtitle": "Join thousands of organizations worldwide who trust GiantyLive for seamless multilingual communication",
+    "features": [
+      "Setup in under 5 minutes",
+      "No software installation required",
+      "24/7 technical support",
+      "Enterprise-grade security"
+    ],
+    "getStartedNow": "Get Started Now",
+    "scheduleDemo": "Schedule Demo",
+    "subtext": "Enterprise-ready solution • 24/7 support • Custom integrations available",
+    "stats": {
+      "uptime": "99.9% uptime guaranteed",
+      "deploy": "Deploy in minutes",
+      "security": "SOC 2 Type II certified"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 GiantyLive. All rights reserved.",
+    "contactUs": "Contact Us",
+    "company": "Company",
+    "about": "About",
+    "subtitle": "Powered by advanced AI, our intelligent translation platform delivers human-like accuracy for seamless international communication."
+  }
+} 

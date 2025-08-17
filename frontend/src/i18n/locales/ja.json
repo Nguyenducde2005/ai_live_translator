@@ -1,0 +1,257 @@
+{
+  "common": {
+    "loading": "読み込み中...",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "create": "作成",
+    "search": "検索",
+    "filter": "フィルター",
+    "actions": "アクション",
+    "status": "ステータス",
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "yes": "はい",
+    "no": "いいえ",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "close": "閉じる",
+    "open": "開く",
+    "view": "表示",
+    "details": "詳細",
+    "name": "名前",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワード確認",
+    "description": "説明",
+    "createdAt": "作成日時",
+    "updatedAt": "更新日時"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "features": "機能",
+    "howItWorks": "使い方",
+    "languages": "言語",
+    "pricing": "料金"
+  },
+  "auth": {
+    "signIn": "サインイン",
+    "signUp": "サインアップ",
+    "signOut": "サインアウト",
+    "login": "ログイン",
+    "getStarted": "始める",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワード確認",
+    "forgotPassword": "パスワードを忘れた方",
+    "rememberMe": "ログイン状態を保持",
+    "dontHaveAccount": "アカウントをお持ちでない方",
+    "alreadyHaveAccount": "既にアカウントをお持ちの方",
+    "createAccount": "アカウント作成",
+    "creatingAccount": "アカウント作成中...",
+    "loginToAccount": "アカウントにログイン",
+    "welcomeBack": "おかえりなさい",
+    "signInToContinue": "アカウントにサインインして続行",
+    "enterEmail": "メールアドレスを入力",
+    "enterPassword": "パスワードを入力",
+    "signingIn": "サインイン中...",
+    "signInButton": "サインイン",
+    "backToHome": "ホームに戻る",
+    "orContinueWith": "または以下で続行",
+    "google": "Google",
+    "twitter": "Twitter",
+    "createAccountTitle": "アカウントを作成",
+    "createAccountSubtitle": "GiantyLiveを始めるためにサインアップ",
+    "enterName": "フルネームを入力",
+    "fullName": "フルネーム",
+    "enterConfirmPassword": "パスワードを確認",
+    "agreeToTerms": "私は",
+    "termsOfService": "利用規約",
+    "and": "と",
+    "privacyPolicy": "プライバシーポリシー",
+    "signingUp": "サインアップ中...",
+    "signUpButton": "アカウント作成",
+    "signUpToContinue": "アカウントを作成して続行",
+    "authenticationError": "認証エラー",
+    "backToSignIn": "サインインに戻る",
+    "processingAuthentication": "認証を処理中...",
+    "pleaseWait": "お待ちください",
+    "processing": "処理中..."
+  },
+  "profile": {
+    "myProfile": "マイプロフィール",
+    "editProfile": "プロフィール編集",
+    "personalInfo": "個人情報",
+    "accountSettings": "アカウント設定"
+  },
+  "settings": {
+    "title": "設定",
+    "general": "一般",
+    "notifications": "通知",
+    "privacy": "プライバシー",
+    "security": "セキュリティ"
+  },
+  "header": {
+    "welcomeBack": "おかえりなさい、{name}",
+    "logout": "ログアウト"
+  },
+  "hero": {
+    "title": "GiantyLive",
+    "slogan": "話す。理解する。つながる。",
+    "subtitle": "AI駆動のリアルタイム翻訳で国際会議の言語障壁を打破",
+    "startLiveTranslation": "ライブ翻訳を開始",
+    "joinConference": "会議に参加",
+    "features": {
+      "realTimeAI": "リアルタイムAI翻訳",
+      "languagesSupported": "20言語対応",
+      "conferenceOptimized": "会議最適化"
+    }
+  },
+  "features": {
+    "title": "GiantyLiveを選ぶ理由",
+    "subtitle": "シームレスな国際コミュニケーションのために設計された高度なAI機能",
+    "realTimeTranslation": {
+      "title": "リアルタイム翻訳",
+      "description": "超低遅延での即座翻訳により、会話が自然に流れます"
+    },
+    "aiPowered": {
+      "title": "AI駆動の精度",
+      "description": "高度なニューラルネットワークが文脈を理解した翻訳を95%の精度で保証"
+    },
+    "multiLanguage": {
+      "title": "多言語サポート",
+      "description": "自動言語検出による20以上の言語をサポート"
+    },
+    "conferenceOptimized": {
+      "title": "会議最適化",
+      "description": "国際会議やミーティングに特化して構築"
+    }
+  },
+  "howItWorks": {
+    "title": "GiantyLiveの動作方法",
+    "subtitle": "グローバルコミュニケーションへの4つの簡単なステップ",
+    "description": "AI駆動プラットフォームにより国際会議が簡単になります",
+    "steps": {
+      "step1": {
+        "number": "01",
+        "title": "自然に話す",
+        "description": "会議中に母国語で自然に話すだけ。AIが複数の話者と言語を自動検出します。"
+      },
+      "step2": {
+        "number": "02",
+        "title": "AI処理",
+        "description": "高度なニューラルネットワークが文脈を理解して音声を処理し、意味とニュアンスを保持した正確な翻訳を保証。"
+      },
+      "step3": {
+        "number": "03",
+        "title": "即座翻訳",
+        "description": "参加者は高品質な音声出力またはテキスト表示を通じて、希望する言語でリアルタイム翻訳を受信。"
+      },
+      "step4": {
+        "number": "04",
+        "title": "シームレスなコミュニケーション",
+        "description": "超低遅延による自然な会話の流れを体験し、言語障壁を完全に消失させます。"
+      }
+    },
+    "visual": {
+      "title": "リアルタイム翻訳",
+      "subtitle": "即座コミュニケーションの魔法を体験",
+      "english": "英語",
+      "vietnamese": "ベトナム語"
+    }
+  },
+  "languages": {
+    "title": "対応言語",
+    "subtitle": "包括的な言語サポートで言語障壁を打破",
+    "description": "AIが20以上の言語を自動検出と高品質翻訳でサポート",
+    "languageList": [
+      "英語",
+      "ベトナム語",
+      "日本語",
+      "中国語",
+      "韓国語",
+      "スペイン語",
+      "フランス語",
+      "ドイツ語",
+      "イタリア語",
+      "ポルトガル語",
+      "ロシア語",
+      "アラビア語",
+      "ヒンディー語",
+      "タイ語",
+      "インドネシア語",
+      "マレー語",
+      "フィリピン語",
+      "オランダ語",
+      "スウェーデン語",
+      "ノルウェー語"
+    ]
+  },
+  "testimonials": {
+    "title": "ユーザーの声",
+    "subtitle": "国際コミュニケーションのニーズでGiantyLiveを信頼する何千人もの専門家に参加",
+    "testimonials": [
+      {
+        "name": "サラ・チェン博士",
+        "role": "会議主催者",
+        "company": "グローバルテックサミット",
+        "content": "GiantyLiveが私たちの国際会議を変革しました。参加者は母国語に関係なくシームレスにコミュニケーションできました。"
+      },
+      {
+        "name": "ミゲル・ロドリゲス教授",
+        "role": "学術ディレクター",
+        "company": "国際大学",
+        "content": "AI翻訳の品質は素晴らしいです。異なる国の学生が今や議論に完全に参加できるようになりました。"
+      },
+      {
+        "name": "リサ・トンプソン",
+        "role": "ビジネス開発",
+        "company": "多国籍企業",
+        "content": "会議でGiantyLiveを導入して以来、国際クライアントエンゲージメントが40%増加しました。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "始める準備はできていますか？",
+    "headline": "次の国際会議を変革",
+    "subtitle": "シームレスな多言語コミュニケーションでGiantyLiveを信頼する世界中の何千もの組織に参加",
+    "features": [
+      "5分以内でセットアップ",
+      "ソフトウェアインストール不要",
+      "24/7技術サポート",
+      "エンタープライズグレードのセキュリティ"
+    ],
+    "getStartedNow": "今すぐ始める",
+    "scheduleDemo": "デモをスケジュール",
+    "subtext": "エンタープライズ対応ソリューション • 24/7サポート • カスタム統合利用可能",
+    "stats": {
+      "uptime": "99.9%稼働時間保証",
+      "deploy": "数分でデプロイ",
+      "security": "SOC 2 Type II認証"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 GiantyLive. All rights reserved.",
+    "contactUs": "お問い合わせ",
+    "company": "会社",
+    "about": "会社概要",
+    "subtitle": "高度なAIにより、インテリジェント翻訳プラットフォームが人間のような精度でシームレスな国際コミュニケーションを実現。"
+  },
+  "settings": {
+    "language": {
+      "title": "言語設定",
+      "description": "アプリケーションの優先言語を選択",
+      "defaultLanguage": "デフォルト言語",
+      "selectLanguage": "言語を選択",
+      "currentLanguage": "現在の言語",
+      "languageUpdated": "言語が正常に更新されました！",
+      "failedToUpdateLanguage": "言語の更新に失敗しました",
+      "languageDescription": "この設定はアカウントに適用され、今後のセッションで保存されます。",
+      "english": "English",
+      "vietnamese": "Tiếng Việt",
+      "japanese": "日本語"
+    }
+  }
+} 

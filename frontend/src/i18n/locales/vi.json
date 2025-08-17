@@ -1,0 +1,257 @@
+{
+  "common": {
+    "loading": "Đang tải...",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "create": "Tạo mới",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "actions": "Hành động",
+    "status": "Trạng thái",
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động",
+    "yes": "Có",
+    "no": "Không",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước đó",
+    "close": "Đóng",
+    "open": "Mở",
+    "view": "Xem",
+    "details": "Chi tiết",
+    "name": "Tên",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "description": "Mô tả",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày cập nhật"
+  },
+  "navigation": {
+    "home": "Trang chủ",
+    "features": "Tính năng",
+    "howItWorks": "Cách hoạt động",
+    "languages": "Ngôn ngữ",
+    "pricing": "Giá cả"
+  },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "signOut": "Đăng xuất",
+    "login": "Đăng nhập",
+    "getStarted": "Bắt đầu",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "dontHaveAccount": "Chưa có tài khoản?",
+    "alreadyHaveAccount": "Đã có tài khoản?",
+    "createAccount": "Tạo tài khoản",
+    "creatingAccount": "Đang tạo tài khoản...",
+    "loginToAccount": "Đăng nhập vào tài khoản",
+    "welcomeBack": "Chào mừng",
+    "signInToContinue": "Đăng nhập vào tài khoản để tiếp tục",
+    "enterEmail": "Nhập email của bạn",
+    "enterPassword": "Nhập mật khẩu của bạn",
+    "signingIn": "Đang đăng nhập...",
+    "signInButton": "Đăng nhập",
+    "backToHome": "Quay về trang chủ",
+    "orContinueWith": "Hoặc tiếp tục với",
+    "google": "Google",
+    "twitter": "Twitter",
+    "createAccountTitle": "Tạo tài khoản của bạn",
+    "createAccountSubtitle": "Đăng ký để bắt đầu với GiantyLive",
+    "enterName": "Nhập họ tên đầy đủ",
+    "fullName": "Họ tên đầy đủ",
+    "enterConfirmPassword": "Xác nhận mật khẩu",
+    "agreeToTerms": "Tôi đồng ý với",
+    "termsOfService": "Điều khoản dịch vụ",
+    "and": "và",
+    "privacyPolicy": "Chính sách bảo mật",
+    "signingUp": "Đang đăng ký...",
+    "signUpButton": "Tạo tài khoản",
+    "signUpToContinue": "Tạo tài khoản để tiếp tục",
+    "authenticationError": "Lỗi xác thực",
+    "backToSignIn": "Quay lại đăng nhập",
+    "processingAuthentication": "Đang xử lý xác thực...",
+    "pleaseWait": "Vui lòng chờ",
+    "processing": "Đang xử lý..."
+  },
+  "profile": {
+    "myProfile": "Hồ sơ của tôi",
+    "editProfile": "Chỉnh sửa hồ sơ",
+    "personalInfo": "Thông tin cá nhân",
+    "accountSettings": "Cài đặt tài khoản"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "general": "Chung",
+    "notifications": "Thông báo",
+    "privacy": "Riêng tư",
+    "security": "Bảo mật"
+  },
+  "header": {
+    "welcomeBack": "Chào mừng trở lại, {name}",
+    "logout": "Đăng xuất"
+  },
+  "hero": {
+    "title": "GiantyLive",
+    "slogan": "Nói. Hiểu. Kết nối.",
+    "subtitle": "Phá vỡ rào cản ngôn ngữ với dịch thuật AI thời gian thực cho hội nghị quốc tế",
+    "startLiveTranslation": "Bắt đầu dịch thuật trực tiếp",
+    "joinConference": "Tham gia hội nghị",
+    "features": {
+      "realTimeAI": "Dịch thuật AI thời gian thực",
+      "languagesSupported": "Hỗ trợ 20 ngôn ngữ",
+      "conferenceOptimized": "Tối ưu cho hội nghị"
+    }
+  },
+  "features": {
+    "title": "Tại sao chọn GiantyLive",
+    "subtitle": "Tính năng AI tiên tiến được thiết kế cho giao tiếp quốc tế liền mạch",
+    "realTimeTranslation": {
+      "title": "Dịch thuật thời gian thực",
+      "description": "Dịch thuật tức thì với độ trễ cực thấp, giúp cuộc trò chuyện diễn ra tự nhiên"
+    },
+    "aiPowered": {
+      "title": "Độ chính xác AI",
+      "description": "Mạng nơ-ron tiên tiến đảm bảo dịch thuật nhận thức ngữ cảnh với độ chính xác 95%"
+    },
+    "multiLanguage": {
+      "title": "Hỗ trợ đa ngôn ngữ",
+      "description": "Hỗ trợ 20+ ngôn ngữ với phát hiện ngôn ngữ tự động"
+    },
+    "conferenceOptimized": {
+      "title": "Tối ưu cho hội nghị",
+      "description": "Được xây dựng đặc biệt cho hội nghị và cuộc họp quốc tế"
+    }
+  },
+  "howItWorks": {
+    "title": "Cách GiantyLive hoạt động",
+    "subtitle": "Bốn bước đơn giản để giao tiếp toàn cầu",
+    "description": "Nền tảng AI của chúng tôi làm cho hội nghị quốc tế trở nên dễ dàng",
+    "steps": {
+      "step1": {
+        "number": "01",
+        "title": "Nói tự nhiên",
+        "description": "Chỉ cần nói bằng ngôn ngữ mẹ đẻ trong hội nghị. AI của chúng tôi tự động phát hiện nhiều người nói và ngôn ngữ."
+      },
+      "step2": {
+        "number": "02",
+        "title": "Xử lý AI",
+        "description": "Mạng nơ-ron tiên tiến xử lý giọng nói với nhận thức ngữ cảnh, đảm bảo dịch thuật chính xác duy trì ý nghĩa và sắc thái."
+      },
+      "step3": {
+        "number": "03",
+        "title": "Dịch thuật tức thì",
+        "description": "Người tham gia nhận được bản dịch thời gian thực bằng ngôn ngữ ưa thích thông qua đầu ra âm thanh chất lượng cao hoặc hiển thị văn bản."
+      },
+      "step4": {
+        "number": "04",
+        "title": "Giao tiếp liền mạch",
+        "description": "Trải nghiệm luồng cuộc trò chuyện tự nhiên với độ trễ cực thấp, làm cho rào cản ngôn ngữ biến mất hoàn toàn."
+      }
+    },
+    "visual": {
+      "title": "Dịch thuật thời gian thực",
+      "subtitle": "Trải nghiệm phép thuật của giao tiếp tức thì",
+      "english": "Tiếng Anh",
+      "vietnamese": "Tiếng Việt"
+    }
+  },
+  "languages": {
+    "title": "Ngôn ngữ được hỗ trợ",
+    "subtitle": "Phá vỡ rào cản ngôn ngữ với hỗ trợ ngôn ngữ toàn diện",
+    "description": "AI của chúng tôi hỗ trợ 20+ ngôn ngữ với phát hiện tự động và dịch thuật chất lượng cao",
+    "languageList": [
+      "Tiếng Anh",
+      "Tiếng Việt",
+      "Tiếng Nhật",
+      "Tiếng Trung",
+      "Tiếng Hàn",
+      "Tiếng Tây Ban Nha",
+      "Tiếng Pháp",
+      "Tiếng Đức",
+      "Tiếng Ý",
+      "Tiếng Bồ Đào Nha",
+      "Tiếng Nga",
+      "Tiếng Ả Rập",
+      "Tiếng Hindi",
+      "Tiếng Thái",
+      "Tiếng Indonesia",
+      "Tiếng Malaysia",
+      "Tiếng Philippines",
+      "Tiếng Hà Lan",
+      "Tiếng Thụy Điển",
+      "Tiếng Na Uy"
+    ]
+  },
+  "testimonials": {
+    "title": "Người dùng nói gì",
+    "subtitle": "Tham gia cùng hàng nghìn chuyên gia tin tưởng GiantyLive cho nhu cầu giao tiếp quốc tế",
+    "testimonials": [
+      {
+        "name": "TS. Sarah Chen",
+        "role": "Người tổ chức hội nghị",
+        "company": "Hội nghị Công nghệ Toàn cầu",
+        "content": "GiantyLive đã thay đổi hội nghị quốc tế của chúng tôi. Người tham gia có thể giao tiếp liền mạch bất kể ngôn ngữ mẹ đẻ."
+      },
+      {
+        "name": "GS. Miguel Rodriguez",
+        "role": "Giám đốc học thuật",
+        "company": "Đại học Quốc tế",
+        "content": "Chất lượng dịch thuật AI rất xuất sắc. Sinh viên từ các quốc gia khác nhau giờ có thể tham gia đầy đủ vào các cuộc thảo luận."
+      },
+      {
+        "name": "Lisa Thompson",
+        "role": "Phát triển kinh doanh",
+        "company": "Tập đoàn đa quốc gia",
+        "content": "Chúng tôi đã thấy sự tăng trưởng 40% trong việc tương tác khách hàng quốc tế kể từ khi triển khai GiantyLive trong các cuộc họp."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Sẵn sàng bắt đầu?",
+    "headline": "Thay đổi hội nghị quốc tế tiếp theo của bạn",
+    "subtitle": "Tham gia cùng hàng nghìn tổ chức trên toàn thế giới tin tưởng GiantyLive cho giao tiếp đa ngôn ngữ liền mạch",
+    "features": [
+      "Thiết lập trong vòng 5 phút",
+      "Không cần cài đặt phần mềm",
+      "Hỗ trợ kỹ thuật 24/7",
+      "Bảo mật cấp doanh nghiệp"
+    ],
+    "getStartedNow": "Bắt đầu ngay",
+    "scheduleDemo": "Lên lịch demo",
+    "subtext": "Giải pháp cấp doanh nghiệp • Hỗ trợ 24/7 • Tích hợp tùy chỉnh có sẵn",
+    "stats": {
+      "uptime": "Đảm bảo thời gian hoạt động 99.9%",
+      "deploy": "Triển khai trong vài phút",
+      "security": "Chứng nhận SOC 2 Type II"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 GiantyLive. Tất cả quyền được bảo lưu.",
+    "contactUs": "Liên hệ chúng tôi",
+    "company": "Công ty",
+    "about": "Giới thiệu",
+    "subtitle": "Được hỗ trợ bởi AI tiên tiến, nền tảng dịch thuật thông minh của chúng tôi mang lại độ chính xác như con người cho giao tiếp quốc tế liền mạch."
+  },
+  "settings": {
+    "language": {
+      "title": "Cài đặt ngôn ngữ",
+      "description": "Chọn ngôn ngữ ưa thích cho ứng dụng",
+      "defaultLanguage": "Ngôn ngữ mặc định",
+      "selectLanguage": "Chọn ngôn ngữ",
+      "currentLanguage": "Ngôn ngữ hiện tại",
+      "languageUpdated": "Cập nhật ngôn ngữ thành công!",
+      "failedToUpdateLanguage": "Không thể cập nhật ngôn ngữ",
+      "languageDescription": "Cài đặt này sẽ được áp dụng cho tài khoản của bạn và lưu cho các phiên đăng nhập sau.",
+      "english": "English",
+      "vietnamese": "Tiếng Việt",
+      "japanese": "日本語"
+    }
+  }
+} 
