@@ -42,6 +42,11 @@
     "users": "Người dùng",
     "settings": "Cài đặt"
   },
+  "hero": {
+    "title": "Dịch Thuật Giọng Nói Trực Tiếp",
+    "subtitle": "Hội Nghị",
+    "description": "Phá vỡ rào cản ngôn ngữ với dịch thuật giọng nói thời gian thực. Tạo phòng hội nghị, mời người tham gia và giao tiếp liền mạch xuyên ngôn ngữ."
+  },
   "auth": {
     "signIn": "Đăng nhập",
     "signUp": "Đăng ký",
@@ -322,6 +327,51 @@
     "startInstantMeeting": "Bắt đầu một conference tức thì",
     "scheduleInCalendar": "Lên lịch trong Lịch",
     "planAhead": "Lên kế hoạch trước",
-    "planAheadDescription": "Nhấp vào Conference mới để lên lịch conference trong Lịch Google và gửi lời mời cho người tham gia"
+    "planAheadDescription": "Nhấp vào Conference mới để lên lịch conference trong Lịch Google và gửi lời mời cho người tham gia",
+    "page": {
+      "hero": {
+        "title": "Dịch Thuật Giọng Nói Trực Tiếp",
+        "subtitle": "Hội Nghị",
+        "description": "Phá vỡ rào cản ngôn ngữ với dịch thuật giọng nói thời gian thực. Tạo phòng hội nghị, mời người tham gia và giao tiếp liền mạch xuyên ngôn ngữ."
+      },
+      "actions": {
+        "newMeeting": "Hội nghị mới",
+        "join": "Tham gia",
+        "learnMore": "Tìm hiểu thêm về Live Voice Translator"
+      },
+      "form": {
+        "enterCodeOrLink": "Nhập một mã hoặc đường liên kết",
+        "roomCode": "Mã phòng",
+        "enterRoomCode": "Nhập mã phòng",
+        "enterYourName": "Nhập tên của bạn"
+      },
+      "slides": {
+        "createConference": {
+          "title": "Tạo hội nghị mới",
+          "description": "Nhấp vào Conference mới để nhận đường liên kết mà bạn có thể gửi cho những người mình muốn họp cùng"
+        },
+        "joinConference": {
+          "title": "Tham gia hội nghị",
+          "description": "Nhập mã phòng và tên của bạn để tham gia cuộc hội nghị hiện có"
+        },
+        "translation": {
+          "title": "Dịch thuật thời gian thực",
+          "description": "Kết nối, cộng tác và ăn mừng ở mọi nơi với Live Voice Translator"
+        }
+      },
+      "popups": {
+        "createConference": {
+          "title": "Tạo hội nghị mới",
+          "createMeetingForLater": "Tạo một conference để sử dụng sau",
+          "startInstantMeeting": "Bắt đầu một conference tức thì",
+          "scheduleInCalendar": "Lên lịch trong Lịch",
+          "cancel": "Hủy"
+        },
+        "joinConference": {
+          "title": "Tham gia hội nghị",
+          "cancel": "Hủy"
+        }
+      }
+    }
   }
 } 

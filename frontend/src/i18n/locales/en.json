@@ -42,6 +42,11 @@
     "users": "Users",
     "settings": "Settings"
   },
+  "hero": {
+    "title": "Live Voice Translation",
+    "subtitle": "Conferences",
+    "description": "Break language barriers with real-time voice translation. Create conference rooms, invite participants, and communicate seamlessly across languages."
+  },
   "auth": {
     "signIn": "Sign In",
     "signUp": "Sign Up",
@@ -289,6 +294,51 @@
     "startInstantMeeting": "Start an instant conference",
     "scheduleInCalendar": "Schedule in Calendar",
     "planAhead": "Plan Ahead",
-    "planAheadDescription": "Click New Conference to schedule a conference in Google Calendar and send invitations to participants"
+    "planAheadDescription": "Click New Conference to schedule a conference in Google Calendar and send invitations to participants",
+    "page": {
+      "hero": {
+        "title": "Live Voice Translation",
+        "subtitle": "Conferences",
+        "description": "Break language barriers with real-time voice translation. Create conference rooms, invite participants, and communicate seamlessly across languages."
+      },
+      "actions": {
+        "newMeeting": "New Conference",
+        "join": "Join",
+        "learnMore": "Learn more about Live Voice Translator"
+      },
+      "form": {
+        "enterCodeOrLink": "Enter a code or link",
+        "roomCode": "Room Code",
+        "enterRoomCode": "Enter Room Code",
+        "enterYourName": "Enter Your Name"
+      },
+      "slides": {
+        "createConference": {
+          "title": "Create Conference",
+          "description": "Click New Conference to get a link you can send to people you want to meet with"
+        },
+        "joinConference": {
+          "title": "Join Conference",
+          "description": "Enter room code and your name to join an existing conference"
+        },
+        "translation": {
+          "title": "Real-time Translation",
+          "description": "Connect, collaborate and celebrate everywhere with Live Voice Translator"
+        }
+      },
+      "popups": {
+        "createConference": {
+          "title": "Create New Conference",
+          "createMeetingForLater": "Create a conference to use later",
+          "startInstantMeeting": "Start an instant conference",
+          "scheduleInCalendar": "Schedule in Calendar",
+          "cancel": "Cancel"
+        },
+        "joinConference": {
+          "title": "Join Conference",
+          "cancel": "Cancel"
+        }
+      }
+    }
   }
 } 

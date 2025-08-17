@@ -42,6 +42,11 @@
     "users": "ユーザー",
     "settings": "設定"
   },
+  "hero": {
+    "title": "ライブ音声翻訳",
+    "subtitle": "会議",
+    "description": "リアルタイム音声翻訳で言語の壁を破りましょう。会議室を作成し、参加者を招待し、言語を超えてシームレスにコミュニケーションできます。"
+  },
   "auth": {
     "signIn": "サインイン",
     "signUp": "サインアップ",
@@ -322,6 +327,51 @@
     "startInstantMeeting": "即座にconferenceを開始",
     "scheduleInCalendar": "カレンダーでスケジュール",
     "planAhead": "事前に計画",
-    "planAheadDescription": "新しいConferenceをクリックして、Googleカレンダーでconferenceをスケジュールし、参加者に招待状を送信"
+    "planAheadDescription": "新しいConferenceをクリックして、Googleカレンダーでconferenceをスケジュールし、参加者に招待状を送信",
+    "page": {
+      "hero": {
+        "title": "ライブ音声翻訳",
+        "subtitle": "会議",
+        "description": "リアルタイム音声翻訳で言語の壁を破りましょう。会議室を作成し、参加者を招待し、言語を超えてシームレスにコミュニケーションできます。"
+      },
+      "actions": {
+        "newMeeting": "新しい会議",
+        "join": "参加",
+        "learnMore": "Live Voice Translatorについて詳しく"
+      },
+      "form": {
+        "enterCodeOrLink": "コードまたはリンクを入力",
+        "roomCode": "ルームコード",
+        "enterRoomCode": "ルームコードを入力",
+        "enterYourName": "お名前を入力"
+      },
+      "slides": {
+        "createConference": {
+          "title": "会議を作成",
+          "description": "新しい会議をクリックして、会いたい人に送信できるリンクを取得"
+        },
+        "joinConference": {
+          "title": "会議に参加",
+          "description": "ルームコードとお名前を入力して既存の会議に参加"
+        },
+        "translation": {
+          "title": "リアルタイム翻訳",
+          "description": "Live Voice Translatorでどこでもつながり、協力し、お祝いしましょう"
+        }
+      },
+      "popups": {
+        "createConference": {
+          "title": "新しい会議を作成",
+          "createMeetingForLater": "後で使用する会議を作成",
+          "startInstantMeeting": "即座に会議を開始",
+          "scheduleInCalendar": "カレンダーでスケジュール",
+          "cancel": "キャンセル"
+        },
+        "joinConference": {
+          "title": "会議に参加",
+          "cancel": "キャンセル"
+        }
+      }
+    }
   }
 } 

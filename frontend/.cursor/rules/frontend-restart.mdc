@@ -1,0 +1,33 @@
+# Frontend Restart Rule
+
+Sau khi update code trong frontend, **LUÔN LUÔN** chạy lệnh sau để restart frontend:
+
+```bash
+docker compose restart frontend
+```
+
+## Tại sao cần restart:
+
+- 🔄 **Hot reload**: Đảm bảo code mới được load
+- 🐛 **Fix bugs**: Giải quyết các vấn đề caching
+- ✨ **UI updates**: Hiển thị thay đổi giao diện mới
+- 🚀 **Performance**: Tối ưu hóa hiệu suất
+
+## Quy trình làm việc:
+
+1. 📝 **Update code** trong frontend
+2. 💾 **Save file**
+3. 🔄 **Chạy**: `docker compose restart frontend`
+4. ✅ **Kiểm tra** kết quả trên browser
+
+## Lưu ý:
+
+- ⚠️ **Bắt buộc**: Phải restart sau mỗi lần update code
+- ⏱️ **Thời gian**: Mất khoảng 1-2 giây để restart
+- 🎯 **Mục tiêu**: Đảm bảo code mới hoạt động chính xác
+
+**KHÔNG BAO GIỜ** quên chạy lệnh restart sau khi update code!
+description:
+globs:
+alwaysApply: false
+---
