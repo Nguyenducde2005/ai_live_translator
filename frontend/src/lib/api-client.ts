@@ -43,10 +43,10 @@ class ApiClient {
           // Clear cookies on 401
           clearAuthCookies()
           // Don't redirect automatically for auth pages
-          if (!window.location.pathname.includes('/sign-in') && !window.location.pathname.includes('/sign-up')) {
-            // Extract current locale from pathname
+          if (!window.location.pathname.includes('/auth/sign-in') && !window.location.pathname.includes('/auth/sign-up')) {
+            // Redirect to sign-in page
             const currentLocale = window.location.pathname.match(/^\/(vi|en|ja)/)?.[1] || 'en'
-            window.location.href = `/${currentLocale}/sign-in`
+            window.location.href = `/${currentLocale}/auth/sign-in`
           }
         }
         return Promise.reject(error)

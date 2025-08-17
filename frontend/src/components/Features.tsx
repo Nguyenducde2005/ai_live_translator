@@ -1,19 +1,11 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Mic, Brain, Globe, Shield } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-interface FeaturesProps {
-  messages: any;
-}
-
-const Features = ({ messages }: FeaturesProps) => {
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value = messages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
-  };
+const Features = () => {
+  const t = useTranslations();
 
   const features = [
     {

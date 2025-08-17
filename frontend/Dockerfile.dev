@@ -1,4 +1,4 @@
-# Development Dockerfile for Next.js frontend
+# Development Dockerfile for Next.js frontend with Turbopack
 FROM node:18-alpine
 
 # Install dependencies for development
@@ -21,5 +21,5 @@ COPY . .
 # Expose port
 EXPOSE 3000
 
-# Start development server with host binding
-CMD ["pnpm", "run", "dev:docker"] 
+# Start development server with Turbopack
+CMD ["pnpm", "run", "dev:turbo"] 

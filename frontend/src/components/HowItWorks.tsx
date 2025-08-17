@@ -1,19 +1,11 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Mic, Brain, Headphones, CheckCircle } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-interface HowItWorksProps {
-  messages: any;
-}
-
-const HowItWorks = ({ messages }: HowItWorksProps) => {
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value = messages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
-  };
+const HowItWorks = () => {
+  const t = useTranslations();
 
   const steps = [
     {

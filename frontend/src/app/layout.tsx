@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from 'next-intl';
 import { Roboto } from "next/font/google";
 import { ThemeProvider } from 'next-themes';
+import { localeConfig } from '@/i18n/config';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -29,13 +30,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // Load default messages for non-locale pages
-  const messages = await import('../i18n/locales/en.json').then(m => m.default).catch(() => ({}));
+  const messages = await import(`../i18n/locales/${localeConfig.defaultLocale}.json`).then(m => m.default).catch(() => ({}));
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={localeConfig.defaultLocale} suppressHydrationWarning>
       <body className={`${roboto.variable} font-roboto`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <NextIntlClientProvider locale="en" messages={messages}>
+          <NextIntlClientProvider locale={localeConfig.defaultLocale} messages={messages}>
             {children}
           </NextIntlClientProvider>
         </ThemeProvider>

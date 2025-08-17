@@ -1,19 +1,11 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Globe, CheckCircle } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-interface LanguagesProps {
-  messages: any;
-}
-
-const Languages = ({ messages }: LanguagesProps) => {
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value = messages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
-  };
+const Languages = () => {
+  const t = useTranslations();
 
   const languageList = [
     "English", "Vietnamese", "Japanese", "Chinese", "Korean",
@@ -38,7 +30,7 @@ const Languages = ({ messages }: LanguagesProps) => {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {languageList.map((language, index) => (
               <div key={index} className="flex items-center gap-2 p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
                 <Globe className="w-4 h-4 text-primary" />

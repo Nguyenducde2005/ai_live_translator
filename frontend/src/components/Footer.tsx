@@ -1,20 +1,12 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Mail, Facebook, Linkedin, Twitter, Youtube } from "lucide-react";
 import { APP_CONSTANTS } from "@/lib/constants/app";
+import { useTranslations } from 'next-intl';
 
-interface FooterProps {
-  messages: any;
-}
-
-const Footer = ({ messages }: FooterProps) => {
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value = messages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
-  };
+const Footer = () => {
+  const t = useTranslations();
 
   const footerLinks = {
     company: [
@@ -43,7 +35,7 @@ const Footer = ({ messages }: FooterProps) => {
                   <path d="M29.79845,3.68473h-.08013a1.7105,1.7105,0,0,0-1.76224,1.6822V16.74162a1.66182,1.66182,0,0,0,1.68215,1.76223h.16022a1.77791,1.77791,0,0,0,1.76228-1.76223V5.447A1.77792,1.77792,0,0,0,29.79845,3.68473Z" fill="#ed2647"/>
                   <rect x="14.01808" y="3.68473" width="3.60465" height="23.63048" rx="1.76228" fill="#ed2647"/>
                   <rect y="12.4961" width="3.60465" height="14.81912" rx="1.76228" fill="#ed2647"/>
-                  <path d="M22.90953,0h-.16016a1.77792,1.77792,0,0,0-1.76229,1.76228V26.99483a1.71048,1.71048,0,0,0,1.68215,1.76229h.16022a1.77791,1.77791,0,0,0,1.76228-1.76229l.08009-25.23255A1.77792,1.77792,0,0,0,22.90953,0Z" fill="#ed2647"/>
+                  <path d="M22.90953,0h-.16016a1.77792,1.77791,0,0,0-1.76229,1.76228V26.99483a1.71048,1.71048,0,0,0,1.68215,1.76229h.16022a1.77791,1.77791,0,0,0,1.76228-1.76229l.08009-25.23255A1.77792,1.77791,0,0,0,22.90953,0Z" fill="#ed2647"/>
                   <rect x="6.969" y="2.1628" width="3.60465" height="28.8372" rx="1.76228" fill="#ed2647"/>
                 </svg>
               </div>

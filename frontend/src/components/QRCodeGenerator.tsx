@@ -1,62 +1,57 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { QrCode, Copy, Download } from "lucide-react";
 import { useTranslations } from 'next-intl';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { 
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog';
-import { QrCode, Download, Copy } from 'lucide-react';
 
 interface QRCodeGeneratorProps {
-  roomCode: string;
-  roomName: string;
   isOpen: boolean;
   onClose: () => void;
-  locale?: string;
+  roomCode: string;
+  roomName: string;
+  locale: string;
 }
 
-export default function QRCodeGenerator({
-  roomCode,
-  roomName,
-  isOpen,
-  onClose,
-  locale = 'en'
-}: QRCodeGeneratorProps) {
-  const t = useTranslations('conferences');
+const QRCodeGenerator = ({ isOpen, onClose, roomCode, roomName, locale }: QRCodeGeneratorProps) => {
+  const t = useTranslations();
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [roomUrl, setRoomUrl] = useState<string>('');
 
   useEffect(() => {
     if (isOpen && roomCode) {
       generateQRCode();
+      // Set room URL only on client side
+      if (typeof window !== 'undefined') {
+        setRoomUrl(`${window.location.origin}/${locale}/conference/${roomCode}`);
+      }
     }
-  }, [isOpen, roomCode]);
+  }, [isOpen, roomCode, locale]);
 
   const generateQRCode = async () => {
+    if (!roomCode) return;
+    
     setIsGenerating(true);
     try {
-      // Simple QR code generation using a public API
-      const roomUrl = `${window.location.origin}/${locale}/conference/${roomCode}`;
-      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(roomUrl)}`;
+      const url = `${typeof window !== 'undefined' ? window.location.origin : ''}/${locale}/conference/${roomCode}`;
       
-      // Convert to data URL for download
+      // Sử dụng API công khai để tạo QR code
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(url)}`;
+      
+      // Fetch QR code image
       const response = await fetch(qrApiUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch QR code');
+      }
+      
       const blob = await response.blob();
       const dataUrl = URL.createObjectURL(blob);
       setQrCodeDataUrl(dataUrl);
     } catch (error) {
       console.error('Failed to generate QR code:', error);
-      // Fallback to a simple text-based QR representation
       setQrCodeDataUrl('');
     } finally {
       setIsGenerating(false);
@@ -64,7 +59,7 @@ export default function QRCodeGenerator({
   };
 
   const handleDownloadQR = () => {
-    if (qrCodeDataUrl) {
+    if (qrCodeDataUrl && typeof window !== 'undefined') {
       const link = document.createElement('a');
       link.href = qrCodeDataUrl;
       link.download = `conference-${roomCode}-qr.png`;
@@ -74,12 +69,22 @@ export default function QRCodeGenerator({
     }
   };
 
-  const handleCopyLink = () => {
-    const roomUrl = `${window.location.origin}/${locale}/conference/${roomCode}`;
-    navigator.clipboard.writeText(roomUrl);
+  const handleCopyLink = async () => {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(roomUrl);
+      } catch (error) {
+        console.error('Failed to copy to clipboard:', error);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = roomUrl;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+    }
   };
-
-  const roomUrl = `${window.location.origin}/${locale}/conference/${roomCode}`;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -87,7 +92,7 @@ export default function QRCodeGenerator({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <QrCode className="w-5 h-5 text-red-600" />
-            {t('qrCode')} for {roomName}
+            {t('conferences.qrCode')} for {roomName}
           </DialogTitle>
           <DialogDescription>
             Share this QR code with participants to join the conference
@@ -157,37 +162,16 @@ export default function QRCodeGenerator({
             <Button
               onClick={handleDownloadQR}
               disabled={!qrCodeDataUrl}
-              className="bg-red-600 hover:bg-red-700 flex items-center gap-2"
+              className="flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
               Download QR
             </Button>
           </div>
-
-          {/* Instructions */}
-          <div className="bg-blue-50 p-3 rounded-lg">
-            <div className="flex items-start space-x-2">
-              <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
-                <span className="text-blue-600 text-xs">ℹ</span>
-              </div>
-              <div className="text-sm text-blue-800">
-                <p className="font-medium">How to use:</p>
-                <ul className="mt-1 space-y-1 text-blue-700">
-                  <li>• Participants scan the QR code with their phone camera</li>
-                  <li>• Or share the direct link via email/message</li>
-                  <li>• No registration required - just enter name to join</li>
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
-
-        <DialogFooter>
-          <Button onClick={onClose} className="w-full bg-red-600 hover:bg-red-700">
-            Close
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default QRCodeGenerator;

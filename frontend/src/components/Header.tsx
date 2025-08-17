@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter, usePathname } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { APP_CONSTANTS } from "@/lib/constants/app";
 import { useAuth } from "@/hooks/use-auth";
 import {
@@ -37,9 +37,8 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations();
+  const locale = useLocale();
   const { user, isAuthenticated, logout } = useAuth();
-
-  const currentLocale = pathname.split('/')[1] || 'en';
 
   const languages = [
     { code: "en", name: "English", flag: "🇺🇸" },
@@ -62,11 +61,9 @@ const Header = () => {
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling down and past 100px - hide header
         setIsVisible(false);
-        console.log('Header hidden - scrolling down');
       } else {
         // Scrolling up or at top - show header
         setIsVisible(true);
-        console.log('Header shown - scrolling up or at top');
       }
       
       setLastScrollY(currentScrollY);
@@ -80,14 +77,29 @@ const Header = () => {
     };
   }, [lastScrollY]);
 
-  const handleLanguageChange = (locale: string) => {
-    const newPath = pathname.replace(`/${currentLocale}`, `/${locale}`);
-    router.push(newPath);
+  const handleLanguageChange = async (newLocale: string) => {
+    if (newLocale === locale) return;
+    
+    try {
+      // Remove the current locale from the pathname
+      const pathnameWithoutLocale = pathname.replace(`/${locale}`, '');
+      
+      // Construct the new path with the new locale
+      const newPath = `/${newLocale}${pathnameWithoutLocale}`;
+      
+      // Set locale cookie
+      document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+      
+      // Use router.push for proper navigation
+      await router.push(newPath);
+    } catch (error) {
+      console.error('Failed to change language:', error);
+    }
   };
 
-  const handleLogout = async () => {
-    await logout();
-    setIsMenuOpen(false);
+  const handleLogout = () => {
+    logout();
+    router.push(`/${locale}/auth/sign-in`);
   };
 
   const getInitials = (name: string) => {
@@ -111,7 +123,7 @@ const Header = () => {
         <nav className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <a href={`/${currentLocale}`} className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+            <a href={`/${locale}`} className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
               <svg
                 width="32"
                 height="32"
@@ -122,8 +134,8 @@ const Header = () => {
                 <path d="M29.79845,3.68473h-.08013a1.7105,1.7105,0,0,0-1.76224,1.6822V16.74162a1.66182,1.66182,0,0,0,1.68215,1.76223h.16022a1.77791,1.77791,0,0,0,1.76228-1.76223V5.447A1.77792,1.77792,0,0,0,29.79845,3.68473Z"></path>
                 <rect x="14.01808" y="3.68473" width="3.60465" height="23.63048" rx="1.76228"></rect>
                 <rect y="12.4961" width="3.60465" height="14.81912" rx="1.76228"></rect>
-                <path d="M22.90953,0h-.16016a1.77792,1.77791,0,0,0-1.76229,1.76228V26.99483a1.71048,1.71048,0,0,0,1.68215,1.76229h.16022a1.77791,1.77791,0,0,0,1.76228-1.76229l.08009-25.23255A1.77792,1.77791,0,0,0,22.90953,0Z"></path>
-                <rect x="6.969" y="2.1628" width="3.60465" height="28.8372" rx="1.76228"></rect>
+                <path d="M22.90953,0h-.16016a1.77792,1.77791,0,0,0-1.76229,1.76228V26.99483a1.71048,1.71048,0,0,0,1.68215,1.76229h.16022a1.77791,1.77791,0,0,0,1.76228-1.76229l.08009-25.23255A1.77792,1.77791,0,0,0,22.90953,0Z" fill="#ed2647"></path>
+                <rect x="6.969" y="2.1628" width="3.60465" height="28.8372" rx="1.76228" fill="#ed2647"></rect>
               </svg>
               <span className="text-2xl font-bold text-white">
                 {APP_CONSTANTS.WEBSITE_NAME}
@@ -152,23 +164,21 @@ const Header = () => {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm" className="text-white hover:text-red-400 transition-colors px-3 py-2 h-auto">
                     <Globe className="w-4 h-4 mr-2" />
-                    <span className="text-sm font-medium">EN</span>
+                    <span className="text-sm font-medium">{locale.toUpperCase()}</span>
                     <ChevronDown className="w-4 h-4 ml-2" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48 mt-2 bg-gray-900/90 backdrop-blur-xl border border-gray-700">
-                  <DropdownMenuItem className="cursor-pointer text-white hover:text-red-400 hover:bg-gray-800/80">
-                    <span className="mr-2">🇺🇸</span>
-                    <span>English</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer text-white hover:text-red-400 hover:bg-gray-800/80">
-                    <span className="mr-2">🇻🇳</span>
-                    <span>Tiếng Việt</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer text-white hover:text-red-400 hover:bg-gray-800/80">
-                    <span className="mr-2">🇯🇵</span>
-                    <span>日本語</span>
-                  </DropdownMenuItem>
+                  {languages.map((language) => (
+                    <DropdownMenuItem 
+                      key={language.code}
+                      onClick={() => handleLanguageChange(language.code)}
+                      className="cursor-pointer text-white hover:text-red-400 hover:bg-gray-800/80"
+                    >
+                      <span className="mr-2">{language.flag}</span>
+                      <span>{language.name}</span>
+                    </DropdownMenuItem>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -192,16 +202,16 @@ const Header = () => {
                 <DropdownMenuContent align="end" className="w-48 mt-2 bg-gray-900/90 backdrop-blur-xl border border-gray-700">
                   <DropdownMenuLabel className="text-white bg-gray-800/80 px-2 py-1 rounded-t-md">{t('header.welcomeBack', { name: user?.full_name || 'User' })}</DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-gray-600" />
-                  <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/profile`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                  <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                     <User className="w-4 h-4 mr-2" />
-                    {t('profile.myProfile')}
+                    My Conferences
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                  <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                     <Settings className="w-4 h-4 mr-2" />
                     {t('settings.title')}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="bg-gray-600" />
-                  <DropdownMenuItem onClick={handleLogout} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-400 hover:text-red-300 hover:bg-gray-800/80">
                     <LogOut className="w-4 h-4 mr-2" />
                     {t('auth.signOut')}
                   </DropdownMenuItem>
@@ -209,14 +219,14 @@ const Header = () => {
               </DropdownMenu>
             ) : (
               <>
-                <Button variant="ghost" size="sm" className="text-white hover:text-red-400 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-colors px-3 py-2 h-auto" asChild>
-                  <a href={`/${currentLocale}/auth/sign-in`}>
+                <Button variant="ghost" size="sm" className="text-white hover:text-red-400 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20" asChild>
+                  <a href={`/${locale}/auth/sign-in`}>
                     <LogIn className="w-4 h-4 mr-2" />
                     {t('auth.signIn')}
                   </a>
                 </Button>
-                <Button variant="default" size="sm" className="bg-red-600 hover:bg-red-700 text-white border-0 px-3 py-2 h-auto" asChild>
-                  <a href={`/${currentLocale}/auth/sign-up`}>
+                <Button variant="default" size="sm" className="bg-red-600 hover:bg-red-700 text-white border-0" asChild>
+                  <a href={`/${locale}/auth/sign-up`}>
                     <UserPlus className="w-4 h-4 mr-2" />
                     {t('auth.signUp')}
                   </a>
@@ -270,16 +280,16 @@ const Header = () => {
                     <DropdownMenuContent align="end" className="w-48 mt-2 bg-gray-900/90 backdrop-blur-xl border border-gray-700">
                       <DropdownMenuLabel className="text-white bg-gray-800/80 px-2 py-1 rounded-t-md">{t('header.welcomeBack', { name: user?.full_name || 'User' })}</DropdownMenuLabel>
                       <DropdownMenuSeparator className="bg-gray-600" />
-                      <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/profile`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                      <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                         <User className="w-4 h-4 mr-2" />
-                        {t('profile.myProfile')}
+                        My Conferences
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => router.push(`/${currentLocale}/dashboard/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                      <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
                         <Settings className="w-4 h-4 mr-2" />
                         {t('settings.title')}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-gray-600" />
-                      <DropdownMenuItem onClick={handleLogout} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                      <DropdownMenuItem onClick={handleLogout} className="text-red-400 hover:text-red-300 hover:bg-gray-800/80">
                         <LogOut className="w-4 h-4 mr-2" />
                         {t('auth.signOut')}
                       </DropdownMenuItem>
@@ -288,13 +298,13 @@ const Header = () => {
                 ) : (
                   <>
                     <Button variant="ghost" size="sm" className="w-full justify-start text-white hover:text-red-400 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20" asChild>
-                      <a href={`/${currentLocale}/auth/sign-in`}>
+                      <a href={`/${locale}/auth/sign-in`}>
                         <LogIn className="w-4 h-4 mr-2" />
                         {t('auth.signIn')}
                       </a>
                     </Button>
                     <Button variant="default" size="sm" className="w-full justify-start bg-red-600 hover:bg-red-700 text-white border-0" asChild>
-                      <a href={`/${currentLocale}/auth/sign-up`}>
+                      <a href={`/${locale}/auth/sign-up`}>
                         <UserPlus className="w-4 h-4 mr-2" />
                         {t('auth.signUp')}
                       </a>
@@ -302,9 +312,9 @@ const Header = () => {
                   </>
                 )}
                 <Button variant="outline" size="sm" className="w-full justify-start border-white/30 text-white hover:text-red-400 hover:bg-white/10" asChild>
-                  <a href={`/${currentLocale}/guide`}>
+                  <a href={`/${locale}/guide`}>
                     <BarChart3 className="w-4 h-4 mr-2" />
-                    {t('nav.guide')}
+                    {t('navigation.setup')}
                   </a>
                 </Button>
               </div>

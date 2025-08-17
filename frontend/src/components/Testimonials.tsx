@@ -1,19 +1,11 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Star, Quote } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-interface TestimonialsProps {
-  messages: any;
-}
-
-const Testimonials = ({ messages }: TestimonialsProps) => {
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value = messages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
-  };
+const Testimonials = () => {
+  const t = useTranslations();
 
   const testimonials = [
     {

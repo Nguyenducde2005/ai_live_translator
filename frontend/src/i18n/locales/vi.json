@@ -57,14 +57,12 @@
     "alreadyHaveAccount": "Đã có tài khoản?",
     "createAccount": "Tạo tài khoản",
     "creatingAccount": "Đang tạo tài khoản...",
-    "loginToAccount": "Đăng nhập vào tài khoản",
-    "welcomeBack": "Chào mừng",
-    "signInToContinue": "Đăng nhập vào tài khoản để tiếp tục",
+    "loginToAccount": "Đăng nhập vào tài khoản để tiếp tục",
     "enterEmail": "Nhập email của bạn",
     "enterPassword": "Nhập mật khẩu của bạn",
     "signingIn": "Đang đăng nhập...",
     "signInButton": "Đăng nhập",
-    "backToHome": "Quay về trang chủ",
+    "backToHome": "Về trang chủ",
     "orContinueWith": "Hoặc tiếp tục với",
     "google": "Google",
     "twitter": "Twitter",
@@ -84,7 +82,9 @@
     "backToSignIn": "Quay lại đăng nhập",
     "processingAuthentication": "Đang xử lý xác thực...",
     "pleaseWait": "Vui lòng chờ",
-    "processing": "Đang xử lý..."
+    "processing": "Đang xử lý...",
+    "welcomeBack": "Chào mừng trở lại",
+    "signInToContinue": "Đăng nhập vào tài khoản để tiếp tục"
   },
   "profile": {
     "myProfile": "Hồ sơ của tôi",
@@ -117,7 +117,7 @@
     "logout": "Đăng xuất"
   },
   "hero": {
-    "title": "GiantyLive",
+    "title": "Live Voice Translator",
     "slogan": "Nói. Hiểu. Kết nối.",
     "subtitle": "Phá vỡ rào cản ngôn ngữ với dịch thuật AI thời gian thực cho hội nghị quốc tế",
     "startLiveTranslation": "Bắt đầu dịch thuật trực tiếp",
@@ -309,6 +309,19 @@
     },
     "copyCode": "Sao chép mã",
     "copyLink": "Sao chép liên kết",
-    "showQR": "Hiển thị QR"
+    "showQR": "Hiển thị QR",
+    "meetingAndVideoCall": "Tính năng họp và gọi video dành cho tất cả mọi người",
+    "connectCollaborateCelebrate": "Kết nối, cộng tác và ăn mừng ở mọi nơi với Live Voice Translator",
+    "newMeeting": "Hội nghị mới",
+    "enterCodeOrLink": "Nhập một mã hoặc đường liên kết",
+    "join": "Tham gia",
+    "learnMore": "Tìm hiểu thêm về Live Voice Translator",
+    "getShareableLink": "Nhận đường liên kết bạn có thể chia sẻ",
+    "clickNewMeetingDescription": "Nhấp vào Conference mới để nhận đường liên kết mà bạn có thể gửi cho những người mình muốn họp cùng",
+    "createMeetingForLater": "Tạo một conference để sử dụng sau",
+    "startInstantMeeting": "Bắt đầu một conference tức thì",
+    "scheduleInCalendar": "Lên lịch trong Lịch",
+    "planAhead": "Lên kế hoạch trước",
+    "planAheadDescription": "Nhấp vào Conference mới để lên lịch conference trong Lịch Google và gửi lời mời cho người tham gia"
   }
 } 

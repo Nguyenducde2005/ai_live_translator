@@ -57,14 +57,12 @@
     "alreadyHaveAccount": "Already have an account?",
     "createAccount": "Create Account",
     "creatingAccount": "Creating Account...",
-    "loginToAccount": "Login to your account",
-    "welcomeBack": "Welcome back",
-    "signInToContinue": "Sign in to your account to continue",
+    "loginToAccount": "Login to your account to continue",
     "enterEmail": "Enter your email",
     "enterPassword": "Enter your password",
-    "signingIn": "Signing in...",
-    "signInButton": "Sign in",
-    "backToHome": "Back to home",
+    "signingIn": "Signing In...",
+    "signInButton": "Sign In",
+    "backToHome": "Back to Home",
     "orContinueWith": "Or continue with",
     "google": "Google",
     "twitter": "Twitter",
@@ -77,14 +75,16 @@
     "termsOfService": "Terms of Service",
     "and": "and",
     "privacyPolicy": "Privacy Policy",
-    "signingUp": "Signing up...",
-    "signUpButton": "Create account",
+    "signingUp": "Signing Up...",
+    "signUpButton": "Create Account",
     "signUpToContinue": "Create an account to continue",
     "authenticationError": "Authentication Error",
     "backToSignIn": "Back to Sign In",
-    "processingAuthentication": "Processing authentication...",
+    "processingAuthentication": "Processing Authentication...",
     "pleaseWait": "Please wait",
-    "processing": "Processing..."
+    "processing": "Processing...",
+    "welcomeBack": "Welcome back",
+    "signInToContinue": "Sign in to your account to continue"
   },
   "profile": {
     "myProfile": "My Profile",
@@ -97,27 +97,16 @@
     "general": "General",
     "notifications": "Notifications",
     "privacy": "Privacy",
-    "security": "Security",
-    "language": {
-      "title": "Language Settings",
-      "description": "Choose your preferred language for the application",
-      "defaultLanguage": "Default Language",
-      "selectLanguage": "Select Language",
-      "currentLanguage": "Current Language",
-      "languageUpdated": "Language updated successfully!",
-      "failedToUpdateLanguage": "Failed to update language",
-      "languageDescription": "This setting will be applied to your account and saved for future sessions.",
-      "english": "English",
-      "vietnamese": "Tiếng Việt",
-      "japanese": "日本語"
-    }
+    "security": "Security"
   },
   "header": {
     "welcomeBack": "Welcome back, {name}",
-    "logout": "Logout"
+    "profile": "Profile",
+    "settings": "Settings",
+    "signOut": "Sign Out"
   },
   "hero": {
-    "title": "GiantyLive",
+    "title": "Live Voice Translator",
     "slogan": "Speak. Understand. Connect.",
     "subtitle": "Break language barriers with AI-powered real-time translation for international conferences",
     "startLiveTranslation": "Start Live Translation",
@@ -184,29 +173,7 @@
   "languages": {
     "title": "Supported Languages",
     "subtitle": "Break down language barriers with comprehensive language support",
-    "description": "Our AI supports 20+ languages with automatic detection and high-quality translation",
-    "languageList": [
-      "English",
-      "Vietnamese",
-      "Japanese",
-      "Chinese",
-      "Korean",
-      "Spanish",
-      "French",
-      "German",
-      "Italian",
-      "Portuguese",
-      "Russian",
-      "Arabic",
-      "Hindi",
-      "Thai",
-      "Indonesian",
-      "Malay",
-      "Filipino",
-      "Dutch",
-      "Swedish",
-      "Norwegian"
-    ]
+    "description": "Our AI supports 20+ languages with automatic detection and high-quality translation"
   },
   "testimonials": {
     "title": "What Our Users Say",
@@ -309,6 +276,19 @@
     },
     "copyCode": "Copy Code",
     "copyLink": "Copy Link",
-    "showQR": "Show QR"
+    "showQR": "Show QR",
+    "meetingAndVideoCall": "Meeting and video call features for everyone",
+    "connectCollaborateCelebrate": "Connect, collaborate and celebrate everywhere with Live Voice Translator",
+    "newMeeting": "New Conference",
+    "enterCodeOrLink": "Enter a code or link",
+    "join": "Join",
+    "learnMore": "Learn more about Live Voice Translator",
+    "getShareableLink": "Get a link you can share",
+    "clickNewMeetingDescription": "Click New Conference to get a link you can send to people you want to meet with",
+    "createMeetingForLater": "Create a conference to use later",
+    "startInstantMeeting": "Start an instant conference",
+    "scheduleInCalendar": "Schedule in Calendar",
+    "planAhead": "Plan Ahead",
+    "planAheadDescription": "Click New Conference to schedule a conference in Google Calendar and send invitations to participants"
   }
 } 

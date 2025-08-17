@@ -1,26 +1,23 @@
-import Header from "@/components/gianty-talk/Header";
-import Hero from "@/components/gianty-talk/Hero";
-import Features from "@/components/gianty-talk/Features";
-import HowItWorks from "@/components/gianty-talk/HowItWorks";
-import Languages from "@/components/gianty-talk/Languages";
-import Testimonials from "@/components/gianty-talk/Testimonials";
-import CTA from "@/components/gianty-talk/CTA";
-import Footer from "@/components/gianty-talk/Footer";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import Features from "@/components/Features";
+import HowItWorks from "@/components/HowItWorks";
+import Languages from "@/components/Languages";
+import Testimonials from "@/components/Testimonials";
+import CTA from "@/components/CTA";
+import Footer from "@/components/Footer";
 
-export default async function Page() {
-  // Load default English messages
-  const messages = await import('../i18n/locales/en.json').then(m => m.default).catch(() => ({}));
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <main className="min-h-screen bg-background">
       <Header />
-      <Hero messages={messages} />
-      <Features messages={messages} />
-      <HowItWorks messages={messages} />
-      <Languages messages={messages} />
-      <Testimonials messages={messages} />
-      <CTA messages={messages} />
-      <Footer messages={messages} />
-    </div>
+      <Hero />
+      <Features />
+      <HowItWorks />
+      <Languages />
+      <Testimonials />
+      <CTA />
+      <Footer />
+    </main>
   );
 } 

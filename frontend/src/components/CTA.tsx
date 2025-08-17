@@ -1,21 +1,13 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mic, Calendar, ArrowRight, CheckCircle } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-interface CTAProps {
-  messages: any;
-}
-
-const CTA = ({ messages }: CTAProps) => {
-  const t = (key: string) => {
-    const keys = key.split('.');
-    let value = messages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
-  };
+const CTA = () => {
+  const t = useTranslations();
 
   const features = [
     t('cta.features.0'),

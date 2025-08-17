@@ -5,7 +5,7 @@ export default getRequestConfig(async ({ locale }) => {
   // Validate that the incoming `locale` parameter is valid
   if (!locale || !locales.includes(locale as any)) {
     // Fallback to default locale if locale is undefined or invalid
-    locale = 'en';
+    locale = 'ja';
   }
 
   return {
