@@ -1,34 +1,31 @@
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Optional
 import os
 
 class Settings(BaseSettings):
+    PROJECT_NAME: str = "Live Voice Translator"
+    API_V1_STR: str = "/api/v1"
+    
     # Database
-    DATABASE_URL: str = "postgresql://giantytalk_user:giantytalk_password@localhost:5432/giantytalk"
+    DATABASE_URL: str = "postgresql://postgres:postgres@postgres:5432/live_translator_db"
     
     # Redis
-    REDIS_URL: str = "redis://localhost:6379"
+    REDIS_URL: str = "redis://redis:6379"
     
-    # Security
+    # JWT
     SECRET_KEY: str = "your-secret-key-here-change-in-production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    # API Settings
-    API_V1_STR: str = "/api/v1"
-    PROJECT_NAME: str = "GiantyTalk API"
-    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:8000"]
-    
-    # Translation API
-    TRANSLATION_API_KEY: str = ""
-    TRANSLATION_API_URL: str = ""
-    
-    # WebSocket
-    WEBSOCKET_HOST: str = "0.0.0.0"
-    WEBSOCKET_PORT: int = 8001
+    # CORS
+    BACKEND_CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
+    ]
     
     class Config:
         env_file = ".env"
-        case_sensitive = True
 
 settings = Settings()

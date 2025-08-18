@@ -3,10 +3,10 @@ version: '3.8'
 services:
   # PostgreSQL Database
   postgres:
-    image: postgres:15-alpine
-    container_name: giantytalk_postgres
+    image: postgres:15
+    container_name: live_translator_postgres
     environment:
-      POSTGRES_DB: giantytalk
+      POSTGRES_DB: live_translator_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
@@ -17,19 +17,19 @@ services:
       - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d giantytalk"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d live_translator_db"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - giantytalk_network
+      - live_translator_network
 
   # Redis Cache
   redis:
     image: redis:7-alpine
-    container_name: giantytalk_redis
+    container_name: live_translator_redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - redis_data:/data
     restart: unless-stopped
@@ -39,16 +39,16 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - giantytalk_network
+      - live_translator_network
 
   # Backend API
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    container_name: giantytalk_backend
+    container_name: live_translator_backend
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/giantytalk
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/live_translator_db
       - REDIS_URL=redis://redis:6379
       - SECRET_KEY=your-secret-key-here-change-in-production
       - ALGORITHM=HS256
@@ -79,7 +79,7 @@ services:
       retries: 3
       start_period: 40s
     networks:
-      - giantytalk_network
+      - live_translator_network
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
   # Frontend Next.js
@@ -87,7 +87,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    container_name: giantytalk_frontend
+    container_name: live_translator_frontend
     environment:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
@@ -112,8 +112,8 @@ services:
       retries: 3
       start_period: 40s
     networks:
-      - giantytalk_network
-    command: pnpm run dev:docker
+      - live_translator_network
+    command: npm run dev:docker
 
   # Nginx Reverse Proxy (Optional - for production)
   nginx:
@@ -130,7 +130,7 @@ services:
       - backend
     restart: unless-stopped
     networks:
-      - giantytalk_network
+      - live_translator_network
     profiles:
       - production
 
@@ -141,6 +141,6 @@ volumes:
     driver: local
 
 networks:
-  giantytalk_network:
+  live_translator_network:
     driver: bridge
     # Let Docker assign subnet automatically to avoid overlap

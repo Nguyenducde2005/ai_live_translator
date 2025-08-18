@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from pydantic.networks import EmailStr
 from typing import Optional
 from datetime import datetime
+from uuid import UUID
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -20,7 +21,7 @@ class UserUpdate(BaseModel):
     avatar_url: Optional[str] = None
 
 class UserInDB(UserBase):
-    id: int
+    id: UUID
     is_active: bool
     is_superuser: bool
     created_at: datetime

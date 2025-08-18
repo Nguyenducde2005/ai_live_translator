@@ -16,7 +16,7 @@ interface AuthState {
 }
 
 interface UseAuthReturn extends AuthState {
-  login: (credentials: SignInRequest) => Promise<void>
+  login: (credentials: SignInRequest, redirectTo?: string) => Promise<void>
   register: (userData: SignUpRequest) => Promise<void>
   logout: () => void
   error: string | null
@@ -79,7 +79,7 @@ export function useAuth(): UseAuthReturn {
     initAuth()
   }, [])
 
-  const login = useCallback(async (credentials: SignInRequest) => {
+  const login = useCallback(async (credentials: SignInRequest, redirectTo?: string) => {
     try {
       setError(null)
       setState(prev => ({ ...prev, isLoading: true }))
@@ -95,7 +95,9 @@ export function useAuth(): UseAuthReturn {
         isAuthenticated: true,
       })
       
-      router.push(`/${locale}`) // Redirect to home page with current locale
+      // Redirect to provided path or default to /conference
+      const target = redirectTo || `/${locale}/conference`
+      router.push(target)
     } catch (err: any) {
       setError(err.response?.data?.detail || err.message || 'Login failed')
       setState(prev => ({ ...prev, isLoading: false }))

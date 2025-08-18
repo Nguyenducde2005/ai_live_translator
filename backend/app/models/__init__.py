@@ -1,25 +1,14 @@
 # Database models
 from .user import User
-from .workspace import Workspace
-from .channel import Channel
-from .meeting import Meeting
+from .conference import Conference
+from .conference_participant import ConferenceParticipant
 from .translation import Translation
-from .glossary import Glossary, GlossaryTerm
-from .workspace_member import WorkspaceMember
-from .channel_participant import ChannelParticipant
-from .meeting_participant import MeetingParticipant
-from .message import Message
+from .conference_settings import ConferenceSettings
 
 __all__ = [
     "User",
-    "Workspace", 
-    "Channel",
-    "Meeting",
+    "Conference",
+    "ConferenceParticipant", 
     "Translation",
-    "Glossary",
-    "GlossaryTerm",
-    "WorkspaceMember",
-    "ChannelParticipant",
-    "MeetingParticipant",
-    "Message"
+    "ConferenceSettings"
 ]

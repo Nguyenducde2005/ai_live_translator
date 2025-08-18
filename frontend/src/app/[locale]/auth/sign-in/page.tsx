@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Eye, EyeOff, Mail, Lock } from 'lucide-react'
@@ -18,11 +19,13 @@ export default function SignInPage() {
   
   const { login, isLoading, error, clearError } = useAuth()
   const { t, locale } = useTranslation()
+  const searchParams = useSearchParams()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     clearError()
-    await login(formData)
+    const redirectTo = searchParams.get('redirect') || `/${locale}/conference`
+    await login(formData, redirectTo)
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

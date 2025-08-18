@@ -44,20 +44,20 @@ export default function SettingsPage() {
 
   // Gán thông tin user vào form khi user đã đăng nhập
   const [profileForm, setProfileForm] = useState<UpdateProfileForm>({
-    name: user?.name || '',
+    name: user?.full_name || '',
     email: user?.email || ''
   })
 
   // Language settings
-  const [selectedLocale, setSelectedLocale] = useState<string>(user?.locale || 'en')
+  const [selectedLocale, setSelectedLocale] = useState<string>(user?.language_preference || 'en')
 
   useEffect(() => {
     if (user) {
       setProfileForm({
-        name: user.name || '',
+        name: user.full_name || '',
         email: user.email || ''
       })
-      setSelectedLocale(user.locale || 'en')
+      setSelectedLocale(user.language_preference || 'en')
     }
   }, [user])
 
@@ -197,13 +197,12 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader />
-
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-6">
           <Link href={`/${locale}/dashboard`} className="hover:text-gray-700 transition-colors">
-            {t('navigation.dashboard')}
+            Dashboard
           </Link>
           <span>/</span>
           <span className="text-gray-900 font-medium">{t('settings.title')}</span>

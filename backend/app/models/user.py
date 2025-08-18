@@ -1,12 +1,14 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text
+from sqlalchemy import Column, String, Boolean, DateTime, Text
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+import uuid
 
 class User(Base):
     __tablename__ = "users"
     
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
     username = Column(String, unique=True, index=True, nullable=False)
     full_name = Column(String, nullable=True)
@@ -22,4 +24,5 @@ class User(Base):
     timezone = Column(String, nullable=True)
     
     # Relationships
-    owned_workspaces = relationship("Workspace", back_populates="owner")
+    hosted_conferences = relationship("Conference", back_populates="host")
+    conference_participations = relationship("ConferenceParticipant", back_populates="user")

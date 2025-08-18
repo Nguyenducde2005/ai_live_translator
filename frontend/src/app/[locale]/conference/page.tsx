@@ -13,17 +13,28 @@ import {
   ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
-import ConferenceHeader from '@/components/ConferenceHeader';
+import Header from '@/components/Header';
+import CreateConferenceDialog from '@/components/CreateConferenceDialog';
+import { toast } from 'sonner';
+import { useAuth } from '@/hooks/use-auth';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { conferenceService, ConferenceType } from '@/services/conferenceService';
 
 export default function ConferenceLandingPage() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations('conferences.page');
+  const { isAuthenticated } = useAuth();
   const [roomCode, setRoomCode] = useState('');
   const [showCreatePopup, setShowCreatePopup] = useState(false);
   const [showJoinPopup, setShowJoinPopup] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [participantName, setParticipantName] = useState('');
+  const [createDialogType, setCreateDialogType] = useState<'instant' | 'scheduled' | null>(null);
+  const [conflictOpen, setConflictOpen] = useState(false);
+  const [conflictInfo, setConflictInfo] = useState<{ title?: string; code?: string; id?: string } | null>(null);
+  const [conflictLoading, setConflictLoading] = useState(false);
 
   // Mảng ảnh minh họa
   const images = [
@@ -69,24 +80,54 @@ export default function ConferenceLandingPage() {
     }
   };
 
-  const handleCreateConference = (type: 'instant' | 'later') => {
-    if (type === 'instant') {
-      // Tạo cuộc hội nghị ngay lập tức với mã phòng ngẫu nhiên
-      const randomCode = generateRoomCode();
-      router.push(`/${locale}/live-conference/${randomCode}?name=Host`);
-    } else {
-      // Tạo cuộc hội nghị để dùng sau - chuyển đến dashboard
-      router.push(`/${locale}/dashboard/conferences`);
+  const handleCreateConference = async (type: 'instant' | 'scheduled') => {
+    if (!isAuthenticated) {
+      router.push(`/${locale}/auth/sign-in?redirect=/${locale}/conference`);
+      return;
     }
+
+    if (type === 'instant') {
+      try {
+        // Pre-check for existing live conference
+        const list = await conferenceService.getMyConferences(0, 50);
+        const live = list.find(c => c.status === 'STARTED' || c.status === 'PAUSED');
+        if (live) {
+          setConflictInfo({ title: live.title, code: live.conference_code, id: live.id });
+          setConflictOpen(true);
+          return;
+        }
+      } catch (e) {
+        // If cannot check, fallback to open form; backend will still guard
+      }
+    }
+
+    setCreateDialogType(type);
     setShowCreatePopup(false);
   };
 
-  const generateRoomCode = () => {
-    // Tạo mã 6 ký tự giống Google Meet (3 ký tự - 3 ký tự)
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const part1 = Array.from({length: 3}, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-    const part2 = Array.from({length: 3}, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
-    return `${part1}-${part2}`;
+  const handleConflictEndAndStartNew = async () => {
+    if (!conflictInfo?.id) {
+      setConflictOpen(false);
+      return;
+    }
+    setConflictLoading(true);
+    try {
+      await conferenceService.endConference(conflictInfo.id);
+      setConflictOpen(false);
+      setCreateDialogType('instant');
+      setShowCreatePopup(false);
+      toast.success('Ended current conference. You can now create a new one.');
+    } catch (err: any) {
+      toast.error(err.response?.data?.detail || 'Failed to end current conference.');
+    } finally {
+      setConflictLoading(false);
+    }
+  };
+
+  const handleConflictCreateScheduled = () => {
+    setConflictOpen(false);
+    setCreateDialogType('scheduled');
+    setShowCreatePopup(false);
   };
 
   const handleJoinWithName = () => {
@@ -115,8 +156,8 @@ export default function ConferenceLandingPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            {/* Header */}
-      <ConferenceHeader />
+      {/* Header */}
+      <Header variant="light" />
 
       {/* Main Content - Đưa xuống dưới header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 mt-16">
@@ -157,112 +198,65 @@ export default function ConferenceLandingPage() {
                 
                 <Link 
                   href="#"
-                  className="text-red-600 hover:text-red-700 font-medium text-lg"
+                  className="h-12 px-6 text-lg font-medium border-2 border-gray-300 text-gray-700 hover:border-red-500 hover:text-red-600 rounded-lg flex items-center justify-center transition-colors"
                   onClick={handleJoinConference}
                 >
                   {t('actions.join')}
                 </Link>
               </div>
               
-              {/* Đường kẻ ngang */}
-              <div className="border-t border-gray-200 pt-4">
-                <Link 
-                  href={`/${locale}`}
-                  className="text-red-600 hover:text-red-700 font-medium hover:underline"
-                >
-                  {t('actions.learnMore')}
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Section - Feature Explanation */}
-          <div className="text-center lg:text-left">
-            {/* Main Illustration - Slide tự chạy */}
-            <div className="w-64 h-64 mx-auto mb-8 relative overflow-hidden rounded-2xl shadow-2xl">
-              <div className={`w-full h-full bg-gradient-to-br ${currentImage.bgColor} rounded-2xl flex items-center justify-center relative`}>
-                {/* Icon chính ở giữa */}
-                <div className={`w-16 h-16 ${currentImage.iconColor} rounded-full flex items-center justify-center shadow-lg`}>
-                  {currentImageIndex === 0 && (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                    </svg>
-                  )}
-                  {currentImageIndex === 1 && (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-                      <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                      <line x1="12" x2="12" y1="19" y2="22"></line>
-                    </svg>
-                  )}
-                  {currentImageIndex === 2 && (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="9" cy="7" r="4"></circle>
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
-                  )}
-                </div>
-                
-                {/* Nhân vật minh họa */}
-                <div className="absolute -left-6 -top-6">
-                  <div className="w-6 h-6 bg-orange-300 rounded-full"></div>
-                  <div className="w-4 h-8 bg-yellow-400 rounded-t-lg mt-1"></div>
-                </div>
-                <div className="absolute -right-6 -top-6">
-                  <div className="w-6 h-6 bg-amber-700 rounded-full"></div>
-                  <div className="w-4 h-8 bg-green-600 rounded-t-lg mt-1"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* Navigation Arrows */}
-            <div className="flex justify-center items-center mb-8 w-full">
-              <button 
-                className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
-                onClick={handlePreviousImage}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                  <path d="m12 19-7-7 7-7"></path>
-                  <path d="M19 12H5"></path>
-                </svg>
-              </button>
-              <div className="flex-1 max-w-32"></div>
-              <button 
-                className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-800 transition-colors"
-                onClick={handleNextImage}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
-                </svg>
-              </button>
-            </div>
-            
-            {/* Text Content */}
-            <div className="text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {currentImage.title}
-              </h3>
-              <p className="text-gray-600 leading-relaxed max-w-md mx-auto">
-                {currentImage.description}
+              <p className="text-sm text-gray-500 text-center">
+                {t('actions.learnMore')}
               </p>
             </div>
-            
-            {/* Navigation Dots */}
-            <div className="flex justify-center space-x-2 mt-8">
-              {images.map((_, index) => (
-                <div 
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentImageIndex 
-                      ? 'bg-red-600' 
-                      : 'bg-red-200'
-                  }`}
-                />
-              ))}
+          </div>
+          
+          {/* Right Section - Slideshow */}
+          <div className="relative">
+            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+              {/* Navigation Arrows */}
+              <button
+                onClick={handlePreviousImage}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
+              >
+                <ArrowLeft className="w-5 h-5 text-gray-700" />
+              </button>
+              
+              <button
+                onClick={handleNextImage}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
+              >
+                <ArrowRight className="w-5 h-5 text-gray-700" />
+              </button>
+              
+              {/* Current Slide */}
+              <div className={`h-80 bg-gradient-to-br ${currentImage.bgColor} p-8 flex flex-col items-center justify-center text-center`}>
+                <div className={`w-20 h-20 ${currentImage.iconBg} rounded-full flex items-center justify-center mb-6`}>
+                  <div className={`w-12 h-12 ${currentImage.iconColor} rounded-full flex items-center justify-center`}>
+                    <Plus className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                  {currentImage.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {currentImage.description}
+                </p>
+              </div>
+              
+              {/* Navigation Dots */}
+              <div className="flex justify-center space-x-2 mt-8">
+                {images.map((_, index) => (
+                  <div 
+                    key={index}
+                    className={`w-3 h-3 rounded-full transition-colors ${
+                      index === currentImageIndex 
+                        ? 'bg-red-600' 
+                        : 'bg-red-200'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -275,7 +269,7 @@ export default function ConferenceLandingPage() {
             <div className="space-y-3">
               <div 
                 className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors border border-gray-200"
-                onClick={() => handleCreateConference('later')}
+                onClick={() => handleCreateConference('scheduled')}
               >
                 <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                   <LinkIcon className="w-5 h-5 text-red-600" />
@@ -294,18 +288,6 @@ export default function ConferenceLandingPage() {
                 </div>
                 <span className="text-gray-700 font-medium">
                   {t('popups.createConference.startInstantMeeting')}
-                </span>
-              </div>
-              
-              <div 
-                className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors border border-gray-200"
-                onClick={() => handleCreateConference('later')}
-              >
-                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-red-600" />
-                </div>
-                <span className="text-gray-700 font-medium">
-                  {t('popups.createConference.scheduleInCalendar')}
                 </span>
               </div>
             </div>
@@ -356,7 +338,7 @@ export default function ConferenceLandingPage() {
               </div>
             </div>
             
-            <div className="mt-6 flex space-x-3">
+            <div className="mt-6 pt-4 border-t border-gray-200 flex space-x-3">
               <Button 
                 variant="outline" 
                 className="flex-1"
@@ -367,14 +349,60 @@ export default function ConferenceLandingPage() {
               <Button 
                 className="flex-1 bg-red-600 hover:bg-red-700"
                 onClick={handleJoinWithName}
-                disabled={!roomCode.trim() || !participantName.trim()}
+                disabled={!participantName.trim()}
               >
-                {t('actions.join')}
+                Join
               </Button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Create Conference Dialog */}
+      <CreateConferenceDialog
+        isOpen={createDialogType !== null}
+        onClose={() => setCreateDialogType(null)}
+        type={createDialogType as 'instant' | 'scheduled'}
+      />
+
+      {/* Conflict Dialog: already has live conference */}
+      <Dialog open={conflictOpen} onOpenChange={setConflictOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>You already have a live conference</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-gray-600">
+              Current live: <span className="font-semibold text-gray-900">{conflictInfo?.title || 'Your live conference'}</span>
+              {conflictInfo?.code ? ` (${conflictInfo.code})` : ''}
+            </p>
+            <Separator />
+            <div className="flex flex-col gap-2">
+              <Button
+                onClick={handleConflictEndAndStartNew}
+                disabled={conflictLoading}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                {conflictLoading ? 'Processing...' : 'End current and start new now'}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleConflictCreateScheduled}
+                disabled={conflictLoading}
+              >
+                {conflictLoading ? 'Processing...' : 'Create as Scheduled instead'}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => setConflictOpen(false)}
+                disabled={conflictLoading}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -30,7 +30,11 @@ import {
   Globe,
 } from "lucide-react";
 
-const Header = () => {
+interface HeaderProps {
+  variant?: 'dark' | 'light'
+}
+
+const Header = ({ variant = 'dark' }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -39,6 +43,16 @@ const Header = () => {
   const t = useTranslations();
   const locale = useLocale();
   const { user, isAuthenticated, logout } = useAuth();
+
+  const isLight = variant === 'light'
+  const bgHeader = isLight
+    ? 'bg-white shadow-sm border-b border-gray-200'
+    : 'bg-black/20 backdrop-blur-xl border-b border-white/20'
+  const textMain = isLight ? 'text-black' : 'text-white'
+  const hoverTextMain = isLight ? 'hover:text-red-600' : 'hover:text-red-400'
+  const dropdownBg = isLight ? 'bg-white border border-gray-200' : 'bg-gray-900/90 backdrop-blur-xl border border-gray-700'
+  const dropdownSeparator = isLight ? 'bg-gray-200' : 'bg-gray-600'
+  const dropdownLabel = isLight ? 'text-black bg-gray-50' : 'text-white bg-gray-800/80'
 
   const languages = [
     { code: "en", name: "English", flag: "🇺🇸" },
@@ -113,7 +127,7 @@ const Header = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-xl border-b border-white/20 shadow-lg transition-all duration-500 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 ${bgHeader} shadow-lg transition-all duration-500 ease-out ${
         isVisible 
           ? 'translate-y-0 opacity-100 shadow-lg' 
           : '-translate-y-full opacity-0 shadow-none'
@@ -137,7 +151,7 @@ const Header = () => {
                 <path d="M22.90953,0h-.16016a1.77792,1.77791,0,0,0-1.76229,1.76228V26.99483a1.71048,1.71048,0,0,0,1.68215,1.76229h.16022a1.77791,1.77791,0,0,0,1.76228-1.76229l.08009-25.23255A1.77792,1.77791,0,0,0,22.90953,0Z" fill="#ed2647"></path>
                 <rect x="6.969" y="2.1628" width="3.60465" height="28.8372" rx="1.76228" fill="#ed2647"></rect>
               </svg>
-              <span className="text-2xl font-bold text-white">
+              <span className={`text-2xl font-bold ${textMain}`}>
                 {APP_CONSTANTS.WEBSITE_NAME}
               </span>
             </a>
@@ -149,7 +163,7 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-white hover:text-red-400 transition-colors cursor-pointer"
+                className={`${textMain} ${hoverTextMain} transition-colors cursor-pointer`}
               >
                 {item.name}
               </a>
@@ -162,18 +176,18 @@ const Header = () => {
             <div className="flex items-center space-x-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-white hover:text-red-400 transition-colors px-3 py-2 h-auto">
+                  <Button variant="ghost" size="sm" className={`${textMain} ${hoverTextMain} transition-colors px-3 py-2 h-auto`}>
                     <Globe className="w-4 h-4 mr-2" />
                     <span className="text-sm font-medium">{locale.toUpperCase()}</span>
                     <ChevronDown className="w-4 h-4 ml-2" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 mt-2 bg-gray-900/90 backdrop-blur-xl border border-gray-700">
+                <DropdownMenuContent align="end" className={`w-48 mt-2 ${dropdownBg}`}>
                   {languages.map((language) => (
                     <DropdownMenuItem 
                       key={language.code}
                       onClick={() => handleLanguageChange(language.code)}
-                      className="cursor-pointer text-white hover:text-red-400 hover:bg-gray-800/80"
+                      className={`cursor-pointer ${textMain} ${hoverTextMain} ${isLight ? 'hover:bg-gray-50' : 'hover:bg-gray-800/80'}`}
                     >
                       <span className="mr-2">{language.flag}</span>
                       <span>{language.name}</span>
@@ -187,30 +201,30 @@ const Header = () => {
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-white hover:text-red-400 transition-colors px-3 py-2 h-auto">
+                  <Button variant="ghost" size="sm" className={`${textMain} ${hoverTextMain} transition-colors px-3 py-2 h-auto`}>
                     <div className="flex items-center gap-3">
                       <Avatar className="w-8 h-8">
                         <AvatarImage src={user?.avatar_url} alt={user?.full_name || 'User'} />
-                        <AvatarFallback className="bg-gray-700 text-white text-sm font-medium">
+                        <AvatarFallback className={`${isLight ? 'bg-gray-200 text-black' : 'bg-gray-700 text-white'} text-sm font-medium`}>
                           {getInitials(user?.full_name || '')}
                         </AvatarFallback>
                       </Avatar>
-                      <span className="text-sm font-medium text-white">{user?.full_name}</span>
+                      <span className={`text-sm font-medium ${textMain}`}>{user?.full_name}</span>
                     </div>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 mt-2 bg-gray-900/90 backdrop-blur-xl border border-gray-700">
-                  <DropdownMenuLabel className="text-white bg-gray-800/80 px-2 py-1 rounded-t-md">{t('header.welcomeBack', { name: user?.full_name || 'User' })}</DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-gray-600" />
-                  <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                <DropdownMenuContent align="end" className={`w-48 mt-2 ${dropdownBg}`}>
+                  <DropdownMenuLabel className={`${dropdownLabel} px-2 py-1 rounded-t-md`}>{t('header.welcomeBack', { name: user?.full_name || 'User' })}</DropdownMenuLabel>
+                  <DropdownMenuSeparator className={`${dropdownSeparator}`} />
+                  <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard`)} className={`${textMain} ${hoverTextMain} ${isLight ? 'hover:bg-gray-50' : 'hover:bg-gray-800/80'}`}>
                     <User className="w-4 h-4 mr-2" />
                     My Conferences
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard/settings`)} className="text-white hover:text-red-400 hover:bg-gray-800/80">
+                  <DropdownMenuItem onClick={() => router.push(`/${locale}/dashboard/settings`)} className={`${textMain} ${hoverTextMain} ${isLight ? 'hover:bg-gray-50' : 'hover:bg-gray-800/80'}`}>
                     <Settings className="w-4 h-4 mr-2" />
                     {t('settings.title')}
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator className="bg-gray-600" />
+                  <DropdownMenuSeparator className={`${dropdownSeparator}`} />
                   <DropdownMenuItem onClick={handleLogout} className="text-red-400 hover:text-red-300 hover:bg-gray-800/80">
                     <LogOut className="w-4 h-4 mr-2" />
                     {t('auth.signOut')}
@@ -219,7 +233,7 @@ const Header = () => {
               </DropdownMenu>
             ) : (
               <>
-                <Button variant="ghost" size="sm" className="text-white hover:text-red-400 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20" asChild>
+                <Button variant="ghost" size="sm" className={`${isLight ? 'text-black hover:text-red-600 bg-gray-100 hover:bg-gray-200' : 'text-white hover:text-red-400 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20'}`} asChild>
                   <a href={`/${locale}/auth/sign-in`}>
                     <LogIn className="w-4 h-4 mr-2" />
                     {t('auth.signIn')}

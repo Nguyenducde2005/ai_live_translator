@@ -1,24 +1,23 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.core.database import engine
 from app.core.config import settings
 from app.api.v1.api import api_router
-from app.core.database import engine
-from app.models import User, Workspace, Channel, Meeting, Translation, Glossary
+from app.models import User, Conference, ConferenceParticipant, Translation, ConferenceSettings
 
-# Create database tables
+# Create tables
 User.metadata.create_all(bind=engine)
-Workspace.metadata.create_all(bind=engine)
-Channel.metadata.create_all(bind=engine)
-Meeting.metadata.create_all(bind=engine)
+Conference.metadata.create_all(bind=engine)
+ConferenceParticipant.metadata.create_all(bind=engine)
 Translation.metadata.create_all(bind=engine)
-Glossary.metadata.create_all(bind=engine)
+ConferenceSettings.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# Set up CORS
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.BACKEND_CORS_ORIGINS,
@@ -32,12 +31,7 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 async def root():
-    return {
-        "message": "Welcome to GiantyTalk API",
-        "version": "1.0.0",
-        "docs": "/docs",
-        "redoc": "/redoc"
-    }
+    return {"message": "Live Voice Translator API"}
 
 @app.get("/health")
 async def health_check():
