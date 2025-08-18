@@ -345,6 +345,16 @@
         "enterRoomCode": "ルームコードを入力",
         "enterYourName": "お名前を入力"
       },
+      "errors": {
+        "invalidCode": "無効なルームコードまたはリンクです。",
+        "notFound": "ルームが見つかりません。",
+        "ended": "会議は終了しました。",
+        "paused": "会議は一時停止中です。",
+        "cancelled": "会議はキャンセルされました。",
+        "notReady": "会議はまだ参加可能な状態ではありません。",
+        "network": "ルーム状態を確認できません。もう一度お試しください。",
+        "enterCodeOrLink": "ルームコードまたはリンクを入力してください。"
+      },
       "slides": {
         "createConference": {
           "title": "会議を作成",

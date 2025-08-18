@@ -1,7 +1,16 @@
 import axios from 'axios';
 import { getCookie } from '@/lib/cookies';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+function inferBaseURL(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window !== 'undefined' && window.location) {
+    const { protocol, hostname } = window.location;
+    return `${protocol}//${hostname}:8000`;
+  }
+  return 'http://localhost:8000';
+}
+
+const API_BASE_URL = inferBaseURL();
 
 export interface ConferenceCreate {
   title: string;
@@ -179,7 +188,6 @@ class ConferenceService {
       );
       return response.data;
     } catch (error) {
-      console.error('Error fetching conference by code:', error);
       throw error;
     }
   }

@@ -312,6 +312,16 @@
         "enterRoomCode": "Enter Room Code",
         "enterYourName": "Enter Your Name"
       },
+      "errors": {
+        "invalidCode": "Invalid room code or link.",
+        "notFound": "Room not found.",
+        "ended": "Conference has ended.",
+        "paused": "Conference is paused.",
+        "cancelled": "Conference has been cancelled.",
+        "notReady": "Conference is not ready to join.",
+        "network": "Unable to check room status. Please try again.",
+        "enterCodeOrLink": "Please enter a room code or link."
+      },
       "slides": {
         "createConference": {
           "title": "Create Conference",

@@ -1,5 +1,8 @@
 export const APP_CONSTANTS = {
   WEBSITE_NAME: 'GiantyLive',
+  LINKS: {
+    LIVE_CONFERENCE_PATTERN: /^(https?:\/\/)?([\w.-]+)(:\\d+)?\/(vi|en|ja)\/live-conference\/[A-Za-z]{3}-[A-Za-z]{4}-[A-Za-z]{3}(\?.*)?$/,
+  },
   GIANTYTALK_LOGO: {
     SVG_PATH: '/giantytalk-logo.svg',
     ICON: 'Mic',

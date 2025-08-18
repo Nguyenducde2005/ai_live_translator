@@ -13,13 +13,14 @@ import {
   ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
+import { APP_CONSTANTS } from '@/lib/constants/app';
 import Header from '@/components/Header';
 import CreateConferenceDialog from '@/components/CreateConferenceDialog';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks/use-auth';
+import { conferenceService, ConferenceStatus } from '@/services/conferenceService';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
-import { conferenceService, ConferenceType } from '@/services/conferenceService';
 
 export default function ConferenceLandingPage() {
   const router = useRouter();
@@ -32,6 +33,9 @@ export default function ConferenceLandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [participantName, setParticipantName] = useState('');
   const [createDialogType, setCreateDialogType] = useState<'instant' | 'scheduled' | null>(null);
+  const [isCheckingCode, setIsCheckingCode] = useState(false);
+  const [joinError, setJoinError] = useState('');
+  const [joinCode, setJoinCode] = useState('');
   const [conflictOpen, setConflictOpen] = useState(false);
   const [conflictInfo, setConflictInfo] = useState<{ title?: string; code?: string; id?: string } | null>(null);
   const [conflictLoading, setConflictLoading] = useState(false);
@@ -66,6 +70,19 @@ export default function ConferenceLandingPage() {
 
   const currentImage = images[currentImageIndex];
 
+  const errorText = {
+    invalidCode: t('errors.invalidCode'),
+    notFound: t('errors.notFound'),
+    ended: t('errors.ended'),
+    paused: t('errors.paused'),
+    cancelled: t('errors.cancelled'),
+    notReady: t('errors.notReady'),
+    network: t('errors.network'),
+    enterCodeOrLink: t('errors.enterCodeOrLink')
+  } as const;
+
+  const canJoin = roomCode.trim().length > 0 && !isCheckingCode;
+
   const handlePreviousImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
@@ -74,9 +91,100 @@ export default function ConferenceLandingPage() {
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  const handleJoinConference = () => {
-    if (roomCode.trim()) {
-      setShowJoinPopup(true);
+  const extractConferenceCode = (input: string): string | null => {
+    if (!input) return null;
+    const trimmed = input.trim();
+    // Try parse as URL and extract code from pathname
+    try {
+      const url = new URL(trimmed);
+      // Only accept if path exactly matches /{locale}/live-conference/{code}
+      const pathMatch = url.pathname.match(/^\/(vi|en|ja)\/live-conference\/([A-Za-z]{3}-[A-Za-z]{4}-[A-Za-z]{3})$/);
+      if (pathMatch?.[2]) return pathMatch[2].toLowerCase();
+      return null;
+    } catch {
+      // Not a URL: require exact code match (avoid partial like code + extra chars)
+      const exact = trimmed.match(/^[A-Za-z]{3}-[A-Za-z]{4}-[A-Za-z]{3}$/);
+      if (exact?.[0]) return exact[0].toLowerCase();
+    }
+    return null;
+  };
+
+  const isValidLiveConferenceLink = (link: string): boolean => {
+    try {
+      // Only validate structure and code; do not pin host
+      return APP_CONSTANTS.LINKS.LIVE_CONFERENCE_PATTERN.test(link.trim());
+    } catch {
+      return false;
+    }
+  };
+
+  const handleJoinConference = async (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    setJoinError('');
+    if (!roomCode.trim()) {
+      setJoinError(errorText.enterCodeOrLink);
+      toast.error(errorText.enterCodeOrLink);
+      return;
+    }
+    const value = roomCode.trim();
+    // If it's a valid live-conference link, open it directly
+    if (isValidLiveConferenceLink(value)) {
+      window.location.href = value;
+      return;
+    }
+    const code = extractConferenceCode(value);
+    if (!code) {
+      setJoinError(errorText.invalidCode);
+      toast.error(errorText.invalidCode);
+      return;
+    }
+    setIsCheckingCode(true);
+    try {
+      const conf = await conferenceService.getConferenceByCode(code);
+      if (!conf) {
+        setJoinError(errorText.notFound);
+        toast.error(errorText.notFound);
+        return;
+      }
+      if (conf.status === ConferenceStatus.ENDED) {
+        setJoinError(errorText.ended);
+        toast.error(errorText.ended);
+        return;
+      }
+      if (conf.status === ConferenceStatus.PENDING || conf.status === ConferenceStatus.STARTED) {
+        // Hợp lệ: lưu code chuẩn hoá và mở popup để nhập tên
+        setJoinCode(code);
+        setShowJoinPopup(true);
+        return;
+      }
+      const map: Record<string, string> = {
+        PAUSED: errorText.paused,
+        CANCELLED: errorText.cancelled
+      };
+      const msg = map[conf.status] || errorText.notReady;
+      setJoinError(msg);
+      toast.error(msg);
+    } catch (error: any) {
+      const status = error?.response?.status;
+      const detail = error?.response?.data?.detail;
+      if (status === 404 || detail === 'NOT_FOUND') {
+        setJoinError(errorText.notFound);
+        toast.error(errorText.notFound);
+      } else if (status === 400 && (detail === 'ENDED' || detail === 'PAUSED' || detail === 'CANCELLED')) {
+        const map: Record<string, string> = {
+          ENDED: errorText.ended,
+          PAUSED: errorText.paused,
+          CANCELLED: errorText.cancelled
+        };
+        const msg = map[detail] || errorText.notReady;
+        setJoinError(msg);
+        toast.error(msg);
+      } else {
+        setJoinError(errorText.network);
+        toast.error(errorText.network);
+      }
+    } finally {
+      setIsCheckingCode(false);
     }
   };
 
@@ -130,20 +238,66 @@ export default function ConferenceLandingPage() {
     setShowCreatePopup(false);
   };
 
-  const handleJoinWithName = () => {
-    if (roomCode.trim() && participantName.trim()) {
-      // Format mã phòng theo Google Meet (3 ký tự - 3 ký tự)
-      const formattedCode = roomCode.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
-      if (formattedCode.length === 6) {
-        const finalCode = `${formattedCode.slice(0, 3)}-${formattedCode.slice(3, 6)}`;
-        router.push(`/${locale}/live-conference/${finalCode}?name=${encodeURIComponent(participantName.trim())}`);
-      } else {
-        // Nếu không đủ 6 ký tự, thêm dấu gạch ngang vào giữa
-        const paddedCode = formattedCode.padEnd(6, 'A');
-        const finalCode = `${paddedCode.slice(0, 3)}-${paddedCode.slice(3, 6)}`;
-        router.push(`/${locale}/live-conference/${finalCode}?name=${encodeURIComponent(participantName.trim())}`);
+  // extractConferenceCode already defined above
+
+  const handleJoinWithName = async () => {
+    const code = joinCode || extractConferenceCode(roomCode.trim());
+    if (!code) {
+      const msg = errorText.invalidCode;
+      setJoinError(msg);
+      toast.error(msg);
+      return;
+    }
+    if (!participantName.trim()) return;
+
+    setIsCheckingCode(true);
+    try {
+      const conf = await conferenceService.getConferenceByCode(code);
+      if (!conf) {
+        const msg = errorText.notFound;
+        setJoinError(msg);
+        toast.error(msg);
+        return;
       }
-      setShowJoinPopup(false);
+      if (conf.status === ConferenceStatus.ENDED) {
+        const msg = errorText.ended;
+        setJoinError(msg);
+        toast.error(msg);
+        return;
+      }
+      if (conf.status === ConferenceStatus.PENDING || conf.status === ConferenceStatus.STARTED) {
+        router.push(`/${locale}/live-conference/${code}?name=${encodeURIComponent(participantName.trim())}`);
+        setShowJoinPopup(false);
+        setJoinCode('');
+        return;
+      }
+      // Các trạng thái khác (PAUSED/CANCELLED) xử lý mềm: thông báo và cho host quyết định
+      const msg = errorText.notReady;
+      setJoinError(msg);
+      toast.error(msg);
+    } catch (error: any) {
+      const status = error?.response?.status;
+      const detail = error?.response?.data?.detail;
+      if (status === 404 || detail === 'NOT_FOUND') {
+        const msg = errorText.notFound;
+        setJoinError(msg);
+        toast.error(msg);
+      } else if (status === 400 && (detail === 'ENDED' || detail === 'PAUSED' || detail === 'CANCELLED')) {
+        const map: Record<string, string> = {
+          ENDED: errorText.ended,
+          PAUSED: errorText.paused,
+          CANCELLED: errorText.cancelled
+        };
+        const msg = map[detail] || errorText.notReady;
+        setJoinError(msg);
+        toast.error(msg);
+      } else {
+        const msg = errorText.network;
+        setJoinError(msg);
+        toast.error(msg);
+      }
+    } finally {
+      setIsCheckingCode(false);
     }
   };
 
@@ -196,14 +350,18 @@ export default function ConferenceLandingPage() {
                   className="h-12 text-lg border-gray-300 focus:border-red-500 focus:ring-red-500 flex-1"
                 />
                 
-                <Link 
-                  href="#"
-                  className="h-12 px-6 text-lg font-medium border-2 border-gray-300 text-gray-700 hover:border-red-500 hover:text-red-600 rounded-lg flex items-center justify-center transition-colors"
+                <button
+                  type="button"
+                  className={`h-12 px-6 text-lg font-medium border-2 rounded-lg flex items-center justify-center transition-colors ${canJoin ? 'border-gray-300 text-gray-700 hover:border-red-500 hover:text-red-600' : 'border-gray-200 text-gray-400 cursor-not-allowed opacity-60'}`}
                   onClick={handleJoinConference}
+                  disabled={!canJoin}
                 >
-                  {t('actions.join')}
-                </Link>
+                  {isCheckingCode ? 'Checking...' : t('actions.join')}
+                </button>
               </div>
+              {joinError && (
+                <p className="text-sm text-red-600 mt-2">{joinError}</p>
+              )}
               
               <p className="text-sm text-gray-500 text-center">
                 {t('actions.learnMore')}
@@ -318,12 +476,15 @@ export default function ConferenceLandingPage() {
                   {t('form.roomCode')}
                 </label>
                 <Input
-                  value={roomCode}
+                  value={joinCode || roomCode}
                   onChange={(e) => setRoomCode(e.target.value)}
                   placeholder={t('form.enterRoomCode')}
                   className="w-full"
-                  readOnly
+                  readOnly={!!joinCode}
                 />
+                {joinError && (
+                  <p className="text-sm text-red-600 mt-2">{joinError}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -349,9 +510,9 @@ export default function ConferenceLandingPage() {
               <Button 
                 className="flex-1 bg-red-600 hover:bg-red-700"
                 onClick={handleJoinWithName}
-                disabled={!participantName.trim()}
+                disabled={!participantName.trim() || isCheckingCode}
               >
-                Join
+                {isCheckingCode ? 'Checking...' : 'Join'}
               </Button>
             </div>
           </div>

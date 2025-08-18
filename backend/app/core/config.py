@@ -23,6 +23,9 @@ class Settings(BaseSettings):
         "http://localhost:8000",
         "http://127.0.0.1:3000",
         "http://127.0.0.1:8000",
+        # Allow common LAN patterns; adjust as needed
+        "http://192.168.11.30:3000",
+        "http://192.168.11.30:8000",
     ]
     
     class Config:

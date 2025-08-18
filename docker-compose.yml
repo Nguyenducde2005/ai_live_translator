@@ -91,7 +91,6 @@ services:
     environment:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
       - NEXT_PUBLIC_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
       - WATCHPACK_POLLING=true
       - HOSTNAME=0.0.0.0

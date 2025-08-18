@@ -226,15 +226,27 @@ def get_conference_by_code(
     if not conference:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Conference not found"
+            detail="NOT_FOUND"
         )
-    
-    if not conference.is_active:
+
+    # Return explicit errors by status per frontend join rules
+    if conference.status.name == "ENDED":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Conference is not active"
+            detail="ENDED"
         )
-    
+    if conference.status.name == "PAUSED":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="PAUSED"
+        )
+    if conference.status.name == "CANCELLED":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="CANCELLED"
+        )
+
+    # Allow join for PENDING or STARTED
     return conference
 
 @router.put("/{conference_id}", response_model=Conference)

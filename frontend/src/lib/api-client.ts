@@ -2,12 +2,22 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { SignInRequest, SignUpRequest, AuthResponse } from '@/types/auth'
 import { getCookie, setAuthCookies, clearAuthCookies } from './cookies'
 
+function inferBaseURL(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) return process.env.NEXT_PUBLIC_API_URL
+  if (typeof window !== 'undefined' && window.location) {
+    const { protocol, hostname } = window.location
+    // Assume backend exposes on 8000 alongside frontend port
+    return `${protocol}//${hostname}:8000`
+  }
+  return 'http://localhost:8000'
+}
+
 class ApiClient {
   private client: AxiosInstance
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://api-GiantyLive.sgcharo.com',
+      baseURL: inferBaseURL(),
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',

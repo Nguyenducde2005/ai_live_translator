@@ -345,6 +345,16 @@
         "enterRoomCode": "Nhập mã phòng",
         "enterYourName": "Nhập tên của bạn"
       },
+      "errors": {
+        "invalidCode": "Mã phòng không hợp lệ hoặc không tồn tại trong liên kết.",
+        "notFound": "Phòng không tồn tại.",
+        "ended": "Conference đã kết thúc.",
+        "paused": "Conference đang tạm dừng.",
+        "cancelled": "Conference đã bị huỷ.",
+        "notReady": "Conference chưa sẵn sàng để tham gia.",
+        "network": "Không thể kiểm tra trạng thái phòng. Vui lòng thử lại.",
+        "enterCodeOrLink": "Vui lòng nhập mã phòng hoặc đường dẫn."
+      },
       "slides": {
         "createConference": {
           "title": "Tạo hội nghị mới",
