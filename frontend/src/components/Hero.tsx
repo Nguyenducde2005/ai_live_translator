@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Mic, Users, Copy, QrCode, ArrowRight, X, Zap, Globe } from 'lucide-react';
+import { Mic, Users, Copy, ClipboardPaste, ArrowRight, X, Zap, Globe } from 'lucide-react';
+import { toast } from 'sonner';
+import { conferenceService, ConferenceStatus } from '@/services/conferenceService';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
 
@@ -17,21 +19,78 @@ export default function Hero() {
   const [showJoinPopup, setShowJoinPopup] = useState(false);
   const [roomCode, setRoomCode] = useState('');
   const [participantName, setParticipantName] = useState('');
+  const [isChecking, setIsChecking] = useState(false);
+  const [joinError, setJoinError] = useState('');
 
-  const handleJoinConference = () => {
-    if (roomCode.trim() && participantName.trim()) {
-      // Format mã phòng theo Google Meet (3 ký tự - 3 ký tự)
-      const formattedCode = roomCode.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
-      if (formattedCode.length === 6) {
-        const finalCode = `${formattedCode.slice(0, 3)}-${formattedCode.slice(3, 6)}`;
-        router.push(`/${locale}/live-conference/${finalCode}?name=${encodeURIComponent(participantName.trim())}`);
-      } else {
-        // Nếu không đủ 6 ký tự, thêm dấu gạch ngang vào giữa
-        const paddedCode = formattedCode.padEnd(6, 'A');
-        const finalCode = `${paddedCode.slice(0, 3)}-${paddedCode.slice(3, 6)}`;
-        router.push(`/${locale}/live-conference/${finalCode}?name=${encodeURIComponent(participantName.trim())}`);
+  const tErrors = {
+    invalidCode: t('conferences.page.errors.invalidCode'),
+    notFound: t('conferences.page.errors.notFound'),
+    ended: t('conferences.page.errors.ended'),
+    paused: t('conferences.page.errors.paused'),
+    cancelled: t('conferences.page.errors.cancelled'),
+    notReady: t('conferences.page.errors.notReady'),
+    network: t('conferences.page.errors.network'),
+  } as const;
+
+  function extractConferenceCode(input: string): string | null {
+    if (!input) return null;
+    const trimmed = input.trim();
+    try {
+      const url = new URL(trimmed);
+      const m = url.pathname.match(/^\/(vi|en|ja)\/live-conference\/([A-Za-z]{3}-[A-Za-z]{4}-[A-Za-z]{3})$/);
+      if (m?.[2]) return m[2].toLowerCase();
+      return null;
+    } catch {
+      const exact = trimmed.match(/^[A-Za-z]{3}-[A-Za-z]{4}-[A-Za-z]{3}$/);
+      if (exact?.[0]) return exact[0].toLowerCase();
+    }
+    return null;
+  }
+
+  const handleJoinConference = async () => {
+    setJoinError('');
+    if (!roomCode.trim() || !participantName.trim()) return;
+    const code = extractConferenceCode(roomCode);
+    if (!code) {
+      setJoinError(tErrors.invalidCode);
+      toast.error(tErrors.invalidCode);
+      return;
+    }
+
+    setIsChecking(true);
+    try {
+      const conf = await conferenceService.getConferenceByCode(code);
+      if (conf.status === ConferenceStatus.ENDED) {
+        setJoinError(tErrors.ended);
+        toast.error(tErrors.ended);
+        return;
       }
-      setShowJoinPopup(false);
+      if (conf.status === ConferenceStatus.PENDING || conf.status === ConferenceStatus.STARTED) {
+        router.push(`/${locale}/live-conference/${code}?name=${encodeURIComponent(participantName.trim())}`);
+        setShowJoinPopup(false);
+        return;
+      }
+      const map: Record<string, string> = { PAUSED: tErrors.paused, CANCELLED: tErrors.cancelled };
+      const msg = map[(conf.status as any)] || tErrors.notReady;
+      setJoinError(msg);
+      toast.error(msg);
+    } catch (err: any) {
+      const status = err?.response?.status;
+      const detail = err?.response?.data?.detail;
+      if (status === 404 || detail === 'NOT_FOUND') {
+        setJoinError(tErrors.notFound);
+        toast.error(tErrors.notFound);
+      } else if (status === 400 && (detail === 'ENDED' || detail === 'PAUSED' || detail === 'CANCELLED')) {
+        const map: Record<string, string> = { ENDED: tErrors.ended, PAUSED: tErrors.paused, CANCELLED: tErrors.cancelled };
+        const msg = map[detail] || tErrors.notReady;
+        setJoinError(msg);
+        toast.error(msg);
+      } else {
+        setJoinError(tErrors.network);
+        toast.error(tErrors.network);
+      }
+    } finally {
+      setIsChecking(false);
     }
   };
 
@@ -115,7 +174,7 @@ export default function Hero() {
           onClick={() => setShowJoinPopup(false)}
         >
           <div 
-            className="bg-gray-900/95 border border-gray-700/50 rounded-2xl shadow-2xl p-8 w-96 max-w-md mx-4 backdrop-blur-md"
+            className="bg-gray-900/95 border border-gray-700/50 rounded-2xl shadow-2xl p-8 w-[560px] max-w-[600px] mx-4 backdrop-blur-md"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center mb-6">
@@ -141,11 +200,34 @@ export default function Hero() {
                     className="w-full pr-20 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-red-500 focus:ring-red-500"
                   />
                   <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex space-x-1">
-                    <button className="p-1 hover:bg-gray-700/50 rounded transition-colors">
+                    <button
+                      type="button"
+                      className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+                      onClick={async () => {
+                        try {
+                          await navigator.clipboard.writeText(roomCode);
+                          toast.success('Copied');
+                        } catch {
+                          toast.error('Copy failed');
+                        }
+                      }}
+                    >
                       <Copy className="w-4 h-4 text-gray-400 hover:text-gray-200" />
                     </button>
-                    <button className="p-1 hover:bg-gray-700/50 rounded transition-colors">
-                      <QrCode className="w-4 h-4 text-gray-400 hover:text-gray-200" />
+                    <button
+                      type="button"
+                      className="p-1 hover:bg-gray-700/50 rounded transition-colors"
+                      onClick={async () => {
+                        try {
+                          const text = await navigator.clipboard.readText();
+                          const code = extractConferenceCode(text);
+                          setRoomCode(code || text);
+                        } catch {
+                          toast.error('Paste failed');
+                        }
+                      }}
+                    >
+                      <ClipboardPaste className="w-4 h-4 text-gray-400 hover:text-gray-200" />
                     </button>
                   </div>
                 </div>
@@ -163,6 +245,9 @@ export default function Hero() {
                   className="w-full bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-red-500 focus:ring-red-500"
                 />
               </div>
+              {joinError && (
+                <p className="text-sm text-red-400">{joinError}</p>
+              )}
             </div>
             
             {/* Action Button */}
@@ -170,9 +255,9 @@ export default function Hero() {
               <Button 
                 className="w-full bg-red-600 hover:bg-red-700 text-white py-3 text-lg font-medium transition-all duration-200"
                 onClick={handleJoinConference}
-                disabled={!roomCode.trim() || !participantName.trim()}
+                disabled={!roomCode.trim() || !participantName.trim() || isChecking}
               >
-                Join Conference <ArrowRight className="w-5 h-5 ml-2" />
+                {isChecking ? 'Checking...' : 'Join Conference'} <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
 

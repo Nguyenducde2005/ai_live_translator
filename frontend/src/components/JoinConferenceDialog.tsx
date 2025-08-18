@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -23,6 +23,9 @@ import {
   Copy,
   QrCode
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { conferenceService, ConferenceStatus } from '@/services/conferenceService';
 
 interface JoinConferenceDialogProps {
   isOpen: boolean;
@@ -38,22 +41,83 @@ export default function JoinConferenceDialog({
   locale = 'en'
 }: JoinConferenceDialogProps) {
   const t = useTranslations('conferences');
+  const router = useRouter();
+  const currentLocale = useLocale() || locale;
   const [roomCode, setRoomCode] = useState('');
   const [participantName, setParticipantName] = useState('');
   const [isValidating, setIsValidating] = useState(false);
+  const [errorText, setErrorText] = useState('');
+
+  function extractConferenceCode(input: string): string | null {
+    if (!input) return null;
+    const trimmed = input.trim();
+    try {
+      const url = new URL(trimmed);
+      const pathMatch = url.pathname.match(/^\/(vi|en|ja)\/live-conference\/([A-Za-z]{3}-[A-Za-z]{4}-[A-Za-z]{3})$/);
+      if (pathMatch?.[2]) return pathMatch[2].toLowerCase();
+      return null;
+    } catch {
+      const exact = trimmed.match(/^[A-Za-z]{3}-[A-Za-z]{4}-[A-Za-z]{3}$/);
+      if (exact?.[0]) return exact[0].toLowerCase();
+    }
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorText('');
     if (!roomCode.trim() || !participantName.trim()) return;
 
+    const code = extractConferenceCode(roomCode);
+    if (!code) {
+      const msg = t('page.errors.invalidCode');
+      setErrorText(msg);
+      toast.error(msg);
+      return;
+    }
+
     setIsValidating(true);
-    
-    // Simulate validation delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    onJoinConference(roomCode.trim().toUpperCase(), participantName.trim());
-    setIsValidating(false);
-    onClose();
+    try {
+      const conf = await conferenceService.getConferenceByCode(code);
+      if (conf.status === ConferenceStatus.ENDED) {
+        const msg = t('page.errors.ended');
+        setErrorText(msg);
+        toast.error(msg);
+        return;
+      }
+      if (conf.status === ConferenceStatus.PENDING || conf.status === ConferenceStatus.STARTED) {
+        router.push(`/${currentLocale}/live-conference/${code}?name=${encodeURIComponent(participantName.trim())}`);
+        onJoinConference(code, participantName.trim());
+        onClose();
+      } else {
+        const msg = t('page.errors.notReady');
+        setErrorText(msg);
+        toast.error(msg);
+      }
+    } catch (err: any) {
+      const status = err?.response?.status;
+      const detail = err?.response?.data?.detail;
+      if (status === 404 || detail === 'NOT_FOUND') {
+        const msg = t('page.errors.notFound');
+        setErrorText(msg);
+        toast.error(msg);
+      } else if (status === 400 && (detail === 'ENDED' || detail === 'PAUSED' || detail === 'CANCELLED')) {
+        const map: Record<string, string> = {
+          ENDED: t('page.errors.ended'),
+          PAUSED: t('page.errors.paused'),
+          CANCELLED: t('page.errors.cancelled')
+        };
+        const msg = map[detail] || t('page.errors.notReady');
+        setErrorText(msg);
+        toast.error(msg);
+      } else {
+        const msg = t('page.errors.network');
+        setErrorText(msg);
+        toast.error(msg);
+      }
+    } finally {
+      setIsValidating(false);
+    }
   };
 
   const handlePasteFromClipboard = async () => {
@@ -91,8 +155,7 @@ export default function JoinConferenceDialog({
                 id="roomCode"
                 value={roomCode}
                 onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-                placeholder="Enter 6-digit code"
-                maxLength={6}
+                placeholder={t('page.form.enterRoomCode')}
                 className="font-mono text-center text-lg tracking-widest"
                 required
               />
@@ -117,6 +180,9 @@ export default function JoinConferenceDialog({
               required
             />
           </div>
+          {errorText && (
+            <p className="text-sm text-red-600">{errorText}</p>
+          )}
 
           <div className="bg-blue-50 p-3 rounded-lg">
             <div className="flex items-start space-x-2">
