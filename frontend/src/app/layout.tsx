@@ -35,7 +35,7 @@ export default async function RootLayout({
   return (
     <html lang={localeConfig.defaultLocale} suppressHydrationWarning>
       <body className={`${roboto.variable} font-roboto`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <NextIntlClientProvider locale={localeConfig.defaultLocale} messages={messages}>
             {children}
           </NextIntlClientProvider>

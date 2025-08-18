@@ -27,9 +27,12 @@ import {
   Filter,
   ExternalLink,
   Copy as CopyIcon,
-  QrCode
+  QrCode,
+  Share2,
+  Check
 } from 'lucide-react';
 import { useLocale } from 'next-intl';
+import { useAuth } from '@/hooks/use-auth';
 
 // Dữ liệu sẽ được tải từ API
 
@@ -43,8 +46,11 @@ export default function DashboardConferencesPage() {
   const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; conference: ConferenceWithParticipants | null }>({ open: false, conference: null });
   const [startConflict, setStartConflict] = useState<{ open: boolean; live: ConferenceWithParticipants | null; target: ConferenceWithParticipants | null; loading: boolean }>({ open: false, live: null, target: null, loading: false });
   const [qrDialog, setQrDialog] = useState<{ open: boolean; link: string; title: string }>({ open: false, link: '', title: '' });
+  const [copiedCodeId, setCopiedCodeId] = useState<string | null>(null);
+  const [endDialog, setEndDialog] = useState<{ open: boolean; conference: ConferenceWithParticipants | null; loading: boolean }>({ open: false, conference: null, loading: false });
   const router = useRouter();
   const locale = useLocale();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchConferences = async () => {
@@ -219,7 +225,7 @@ export default function DashboardConferencesPage() {
             key="end"
             size="sm"
             variant="destructive"
-            onClick={() => handleStatusChange(conference.id, 'end')}
+            onClick={() => setEndDialog({ open: true, conference, loading: false })}
           >
             <Square className="w-4 h-4 mr-1" />
             End
@@ -244,7 +250,7 @@ export default function DashboardConferencesPage() {
             key="end"
             size="sm"
             variant="destructive"
-            onClick={() => handleStatusChange(conference.id, 'end')}
+            onClick={() => setEndDialog({ open: true, conference, loading: false })}
           >
             <Square className="w-4 h-4 mr-1" />
             End
@@ -253,19 +259,8 @@ export default function DashboardConferencesPage() {
         break;
     }
     
-    // Add edit and delete buttons for all statuses
-    buttons.push(
-      <Button
-        key="edit"
-        size="sm"
-        variant="outline"
-        onClick={() => setEditDialog({ open: true, conference })}
-      >
-        <Edit className="w-4 h-4 mr-1" />
-        Edit
-      </Button>
-    );
-    
+    // Remove explicit Edit button; clicking the card will open view/edit dialog
+
     buttons.push(
       <Button
         key="delete"
@@ -293,7 +288,11 @@ export default function DashboardConferencesPage() {
     return matchesSearch && matchesStatus && matchesType;
   });
 
-  const buildLivePath = (code: string) => `/${locale}/live-conference/${code}?name=Host`;
+  const getDisplayName = (u: any): string => {
+    if (!u) return 'Host';
+    return (u.full_name || u.username || (u.email ? u.email.split('@')[0] : 'Host')) as string;
+  };
+  const buildLivePath = (code: string) => `/${locale}/live-conference/${code}?name=${encodeURIComponent(getDisplayName(user))}`;
   const buildLiveLink = (code: string) => {
     if (typeof window !== 'undefined' && window.location?.origin) {
       return `${window.location.origin}${buildLivePath(code)}`;
@@ -394,7 +393,7 @@ export default function DashboardConferencesPage() {
         </CardContent>
       </Card>
 
-      {/* Conferences Grid */}
+      {/* Conferences List */}
       {loading && (
         <Card>
           <CardContent className="pt-6">Loading conferences...</CardContent>
@@ -424,99 +423,83 @@ export default function DashboardConferencesPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredConferences.map((conference) => (
-            <Card key={conference.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg line-clamp-2">{conference.title}</CardTitle>
-                    <CardDescription className="mt-2">
-                      Code: <span className="font-mono font-semibold">{conference.conference_code}</span>
+            <Card
+              key={conference.id}
+              className="hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => setEditDialog({ open: true, conference })}
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <CardTitle className="text-base font-semibold truncate">{conference.title}</CardTitle>
+                    <CardDescription className="mt-1 text-xs flex items-center gap-1">
+                      <span className="text-gray-600">Code:</span>
+                      <span className="font-mono font-semibold">{conference.conference_code}</span>
+                      {conference.status !== ConferenceStatus.ENDED && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-6 px-2 ml-1"
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            try {
+                              await navigator.clipboard.writeText(buildLiveLink(conference.conference_code));
+                              toast.success('Copied');
+                              setCopiedCodeId(conference.id);
+                              setTimeout(() => {
+                                setCopiedCodeId((prev) => (prev === conference.id ? null : prev));
+                              }, 1500);
+                            } catch {
+                              toast.error('Copy failed');
+                            }
+                          }}
+                        >
+                          {copiedCodeId === conference.id ? (
+                            <Check className="w-3.5 h-3.5 text-green-600" />
+                          ) : (
+                            <CopyIcon className="w-3.5 h-3.5" />
+                          )}
+                        </Button>
+                      )}
                     </CardDescription>
                   </div>
-                  <div className="flex flex-col gap-2 ml-4">
+                  <div className="flex items-center gap-2 shrink-0">
                     {getStatusBadge(conference.status)}
                     {getTypeBadge(conference.type)}
                   </div>
                 </div>
               </CardHeader>
-              
-              <CardContent>
+              <CardContent className="pt-0">
                 {conference.description && (
-                  <p className="text-gray-600 mb-4 line-clamp-2">{conference.description}</p>
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">{conference.description}</p>
                 )}
-                
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Users className="w-4 h-4 mr-2" />
-                    Max: {conference.max_participants} participants
-                  </div>
-                  
+                <div className="grid grid-cols-2 gap-3 text-xs text-gray-600 mb-3">
+                  <div className="flex items-center"><Users className="w-3.5 h-3.5 mr-2" />{conference.max_participants} max</div>
                   {conference.scheduled_at && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      Scheduled: {formatDate(conference.scheduled_at)}
-                    </div>
+                    <div className="flex items-center"><Calendar className="w-3.5 h-3.5 mr-2" />{formatDate(conference.scheduled_at)}</div>
                   )}
-                  
                   {conference.started_at && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Clock className="w-4 h-4 mr-2" />
-                      Started: {formatDate(conference.started_at)}
-                    </div>
+                    <div className="flex items-center"><Clock className="w-3.5 h-3.5 mr-2" />{formatDate(conference.started_at)}</div>
                   )}
-                  
                   {conference.ended_at && (
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Clock className="w-4 h-4 mr-2" />
-                      Ended: {formatDate(conference.ended_at)}
-                    </div>
+                    <div className="flex items-center"><Clock className="w-3.5 h-3.5 mr-2" />{formatDate(conference.ended_at)}</div>
                   )}
                 </div>
-                
-                <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex flex-wrap gap-2 items-center" onClick={(e) => e.stopPropagation()}>
                   {getActionButtons(conference)}
-                  {/* Open live link if active */}
                   {(conference.status === ConferenceStatus.STARTED || conference.status === ConferenceStatus.PAUSED) && (
-                    <Button
-                      key="open"
-                      size="sm"
-                      variant="outline"
-                      onClick={() => router.push(buildLivePath(conference.conference_code))}
-                    >
-                      <ExternalLink className="w-4 h-4 mr-1" />
-                      Open live
+                    <Button key="open" size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); window.open(buildLiveLink(conference.conference_code), '_blank'); }}>
+                      <ExternalLink className="w-4 h-4 mr-1" />Open
                     </Button>
                   )}
-                  {/* Copy share link */}
-                  <Button
-                    key="copy"
-                    size="sm"
-                    variant="outline"
-                    onClick={async () => {
-                      const link = buildLiveLink(conference.conference_code);
-                      try {
-                        await navigator.clipboard.writeText(link);
-                        toast.success('Copied link to clipboard');
-                      } catch {
-                        toast.error('Failed to copy link');
-                      }
-                    }}
-                  >
-                    <CopyIcon className="w-4 h-4 mr-1" />
-                    Copy link
-                  </Button>
-                  {/* QR code */}
-                  <Button
-                    key="qr"
-                    size="sm"
-                    variant="outline"
-                    onClick={() => openQrForLink(conference.title, buildLiveLink(conference.conference_code))}
-                  >
-                    <QrCode className="w-4 h-4 mr-1" />
-                    QR
-                  </Button>
+                  {/* Share button replaces Copy/QR; hide for ENDED */}
+                  {conference.status !== ConferenceStatus.ENDED && (
+                    <Button key="share" size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); openQrForLink(conference.title, buildLiveLink(conference.conference_code)); }}>
+                      <Share2 className="w-4 h-4 mr-1" />Share
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -568,6 +551,48 @@ export default function DashboardConferencesPage() {
         </DialogContent>
       </Dialog>
 
+      {/* End Confirmation Dialog */}
+      <Dialog open={endDialog.open} onOpenChange={(open) => setEndDialog(prev => ({ ...prev, open }))}>
+        <DialogContent className="sm:max-w-[400px]">
+          <DialogHeader>
+            <DialogTitle>End Conference</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-gray-600">
+              Are you sure you want to end "{endDialog.conference?.title}"? Participants will be disconnected.
+            </p>
+          </div>
+          <div className="flex justify-end gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setEndDialog({ open: false, conference: null, loading: false })}
+              disabled={endDialog.loading}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={async () => {
+                if (!endDialog.conference) return;
+                setEndDialog(prev => ({ ...prev, loading: true }));
+                try {
+                  const updated = await conferenceService.endConference(endDialog.conference.id);
+                  setConferences(prev => prev.map(c => (c.id === updated.id ? { ...c, ...updated } : c)));
+                  toast.success('Conference ended');
+                  setEndDialog({ open: false, conference: null, loading: false });
+                } catch (error: any) {
+                  toast.error(error.response?.data?.detail || 'Failed to end conference');
+                  setEndDialog(prev => ({ ...prev, loading: false }));
+                }
+              }}
+              disabled={endDialog.loading}
+            >
+              {endDialog.loading ? 'Processing...' : 'End'}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Start Conflict Dialog */}
       <Dialog open={startConflict.open} onOpenChange={(open) => setStartConflict(prev => ({ ...prev, open }))}>
         <DialogContent className="sm:max-w-[480px]">
@@ -604,7 +629,7 @@ export default function DashboardConferencesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* QR Dialog */}
+      {/* Share Dialog (QR + Copy) */}
       <Dialog open={qrDialog.open} onOpenChange={(open) => setQrDialog(prev => ({ ...prev, open }))}>
         <DialogContent className="sm:max-w-[360px]">
           <DialogHeader>
@@ -677,6 +702,7 @@ function EditConferenceForm({
           value={formData.title}
           onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
           required
+          readOnly={conference.status === ConferenceStatus.ENDED}
         />
       </div>
       
@@ -687,6 +713,7 @@ function EditConferenceForm({
           value={formData.description}
           onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
           rows={3}
+          readOnly={conference.status === ConferenceStatus.ENDED}
         />
       </div>
       
@@ -696,6 +723,7 @@ function EditConferenceForm({
           <Select
             value={formData.max_participants.toString()}
             onValueChange={(value) => setFormData(prev => ({ ...prev, max_participants: parseInt(value) }))}
+            disabled={conference.status === ConferenceStatus.ENDED}
           >
             <SelectTrigger>
               <SelectValue />
@@ -717,6 +745,7 @@ function EditConferenceForm({
               type="datetime-local"
               value={formData.scheduled_at}
               onChange={(e) => setFormData(prev => ({ ...prev, scheduled_at: e.target.value }))}
+              readOnly={conference.status === ConferenceStatus.ENDED}
             />
           </div>
         )}
@@ -728,6 +757,7 @@ function EditConferenceForm({
           <Select
             value={formData.language_from}
             onValueChange={(value) => setFormData(prev => ({ ...prev, language_from: value }))}
+            disabled={conference.status === ConferenceStatus.ENDED}
           >
             <SelectTrigger>
               <SelectValue />
@@ -746,6 +776,7 @@ function EditConferenceForm({
           <Select
             value={formData.language_to}
             onValueChange={(value) => setFormData(prev => ({ ...prev, language_to: value }))}
+            disabled={conference.status === ConferenceStatus.ENDED}
           >
             <SelectTrigger>
               <SelectValue />
@@ -764,7 +795,7 @@ function EditConferenceForm({
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit" className="bg-red-600 hover:bg-red-700">
+        <Button type="submit" className="bg-red-600 hover:bg-red-700" disabled={conference.status === ConferenceStatus.ENDED}>
           Save Changes
         </Button>
       </div>

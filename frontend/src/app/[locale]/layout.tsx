@@ -58,7 +58,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <NextIntlClientProvider locale={validLocale} messages={messages}>
         {children}
       </NextIntlClientProvider>
