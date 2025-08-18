@@ -170,11 +170,11 @@ export default function Hero() {
       {/* Join Conference Popup */}
       {showJoinPopup && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
           onClick={() => setShowJoinPopup(false)}
         >
           <div 
-            className="bg-gray-900/95 border border-gray-700/50 rounded-2xl shadow-2xl p-8 w-[560px] max-w-[600px] mx-4 backdrop-blur-md"
+            className="rounded-2xl p-8 w-[560px] max-w-[600px] mx-4 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/5 bg-white/5 border border-white/10 shadow-[0_8px_28px_rgba(0,0,0,0.3)]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center mb-6">
@@ -197,7 +197,7 @@ export default function Hero() {
                     value={roomCode}
                     onChange={(e) => setRoomCode(e.target.value)}
                     placeholder="Enter 6-digit code"
-                    className="w-full pr-20 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-red-500 focus:ring-red-500"
+                    className="w-full pr-20 bg-white/5 border-white/10 text-white placeholder-white/50 focus:border-red-500 focus:ring-red-500"
                   />
                   <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex space-x-1">
                     <button
@@ -242,7 +242,7 @@ export default function Hero() {
                   value={participantName}
                   onChange={(e) => setParticipantName(e.target.value)}
                   placeholder="Enter your name"
-                  className="w-full bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 focus:border-red-500 focus:ring-red-500"
+                  className="w-full bg-white/5 border-white/10 text-white placeholder-white/50 focus:border-red-500 focus:ring-red-500"
                 />
               </div>
               {joinError && (

@@ -85,11 +85,22 @@ class ConferenceService:
         )
         db.add(default_settings)
         
-        # Add host as first participant
+        # Add host as first participant with proper display name
+        try:
+            from app.models.user import User
+            host_user = db.query(User).filter(User.id == host_id).first()
+            host_name = None
+            if host_user:
+                host_name = host_user.full_name or host_user.username or (host_user.email.split('@')[0] if host_user.email else None)
+            if not host_name:
+                host_name = "Host"
+        except Exception:
+            host_name = "Host"
+
         host_participant = ConferenceParticipant(
             conference_id=db_conference.id,
             user_id=host_id,
-            guest_name="",  # Will be filled from user data
+            guest_name=host_name,
             is_host=True,
             can_speak=True,
             is_muted=False
