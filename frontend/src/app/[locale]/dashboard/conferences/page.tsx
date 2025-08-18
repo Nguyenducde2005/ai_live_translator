@@ -168,26 +168,26 @@ export default function DashboardConferencesPage() {
   };
 
   const getStatusBadge = (status: ConferenceStatus) => {
-    const statusConfig = {
-      [ConferenceStatus.PENDING]: { label: 'Pending', variant: 'secondary' as const },
-      [ConferenceStatus.STARTED]: { label: 'Live', variant: 'default' as const },
-      [ConferenceStatus.PAUSED]: { label: 'Paused', variant: 'outline' as const },
-      [ConferenceStatus.ENDED]: { label: 'Ended', variant: 'destructive' as const },
-      [ConferenceStatus.CANCELLED]: { label: 'Cancelled', variant: 'destructive' as const },
+    const base = 'px-2.5 py-0.5 rounded-full text-xs font-medium';
+    const map: Record<ConferenceStatus, { label: string; className: string }> = {
+      [ConferenceStatus.PENDING]: { label: 'Pending', className: 'bg-gray-100 text-gray-700 border border-gray-200' },
+      [ConferenceStatus.STARTED]: { label: 'Live', className: 'bg-green-100 text-green-700 border border-green-200' },
+      [ConferenceStatus.PAUSED]: { label: 'Paused', className: 'bg-amber-100 text-amber-700 border border-amber-200' },
+      [ConferenceStatus.ENDED]: { label: 'Ended', className: 'bg-gray-200 text-gray-600 border border-gray-300' },
+      [ConferenceStatus.CANCELLED]: { label: 'Cancelled', className: 'bg-red-100 text-red-700 border border-red-200' },
     };
-    
-    const config = statusConfig[status];
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    const cfg = map[status];
+    return <span className={`${base} ${cfg.className}`}>{cfg.label}</span>;
   };
 
   const getTypeBadge = (type: ConferenceType) => {
-    const typeConfig = {
-      [ConferenceType.INSTANT]: { label: 'Instant', variant: 'default' as const },
-      [ConferenceType.SCHEDULED]: { label: 'Scheduled', variant: 'secondary' as const },
+    const base = 'px-2.5 py-0.5 rounded-full text-xs font-medium';
+    const map: Record<ConferenceType, { label: string; className: string }> = {
+      [ConferenceType.INSTANT]: { label: 'Instant', className: 'bg-blue-100 text-blue-700 border border-blue-200' },
+      [ConferenceType.SCHEDULED]: { label: 'Scheduled', className: 'bg-violet-100 text-violet-700 border border-violet-200' },
     };
-    
-    const config = typeConfig[type];
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    const cfg = map[type];
+    return <span className={`${base} ${cfg.className}`}>{cfg.label}</span>;
   };
 
   const getActionButtons = (conference: ConferenceWithParticipants) => {
@@ -488,8 +488,9 @@ export default function DashboardConferencesPage() {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2 items-center" onClick={(e) => e.stopPropagation()}>
+                  {/* Primary actions toned down to outline for harmony */}
                   {getActionButtons(conference)}
-                  {(conference.status === ConferenceStatus.STARTED || conference.status === ConferenceStatus.PAUSED) && (
+                  {conference.status === ConferenceStatus.PAUSED && (
                     <Button key="open" size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); window.open(buildLiveLink(conference.conference_code), '_blank'); }}>
                       <ExternalLink className="w-4 h-4 mr-1" />Open
                     </Button>
